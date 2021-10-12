@@ -200,7 +200,7 @@
 
                                             </div>
 
-                                            <div th:if="${validatationinfo != null}" class="row justify-content-md-center">
+                                            <div th:if="${validatationinfo != null && verifiedrecord.displaydot() == true}" class="row justify-content-md-center">
                                                 <div class="col"   >
 
                                                     <img th:if="${verifiedimg != null}" alt="profile-image"  class="image--lg"  th:src="${verifiedimg}" th:style="'background:url(' + @{verified} + ');'" style="width: 140px;  border: 2px solid #006400; background-image: url('http://res.cloudinary.com/nphcdaict/image/upload/v1633926858/watermark_mvfiyj.png')" >
