@@ -1122,7 +1122,7 @@ public class TrackedEntityInstance {
 
         }else if(getVaccationtype()=="Johnson"){
 
-            Date date = inputFormat.parse(getFirstDoseDate());
+            Date date = inputFormat.parse(getFirstDose());
             if(date.after(phasetwo)){
                 System.out.println("Authentication Phase");
                 return true;
