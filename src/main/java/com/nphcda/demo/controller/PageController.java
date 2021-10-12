@@ -254,6 +254,10 @@ public class PageController {
                 List<Vaccination> myVaccinations = new ArrayList<>() ;
                 System.out.println("hmm"+firstresult.getVaccinnatedFirstDose());
                 if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
+                    System.out.println(firststatecode);
+                    System.out.println(firstresult.getVaccationtype());
+                    System.out.println(firstresult.getFirstDosePhase());
+
                     VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
                     batch= firstdist.getBatch();
                     myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));

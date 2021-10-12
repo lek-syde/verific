@@ -1106,7 +1106,7 @@ public class TrackedEntityInstance {
 
 
 
-            Date phasetwo = parseDate("2021-10-11");
+            Date phasetwo = parseDate("2021-10-10");
 
 
 
@@ -1115,9 +1115,6 @@ public class TrackedEntityInstance {
             if(date.after(phasetwo)){
                 System.out.println("Authentication Phase");
                 return true;
-            }else{
-                System.out.println("Your Safe");
-                return false;
             }
 
         }else if(getVaccationtype()=="Johnson"){
@@ -1131,9 +1128,8 @@ public class TrackedEntityInstance {
                 return false;
             }
 
-        }else{
-            return false;
         }
+        return false;
     }
 
     private String firstdoseVacsiteid() {
