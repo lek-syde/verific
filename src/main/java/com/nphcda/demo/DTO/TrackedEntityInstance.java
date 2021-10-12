@@ -1057,6 +1057,14 @@ public class TrackedEntityInstance {
             String value = attributes.get(i).getValue();
 
             if (de.contains("OvGXY097Hxt")) {
+
+                if(value.equalsIgnoreCase("IP")){
+                    return "PASSPORT";
+                }else if(value.equalsIgnoreCase("VC")){
+                    return "VOTERS CARD";
+                }else if(value.equalsIgnoreCase("DL")){
+                    return "DRIVER LICENSE";
+                }else
                 return value.toUpperCase();
 
             }

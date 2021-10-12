@@ -57,6 +57,15 @@
                 background-color: darkred;
                 color: #ffffff;
             }
+
+
+            @media (min-width: 320px) and (max-width: 480px) {
+
+               .heading-block{
+                   display: none;
+               }
+
+            }
         </style>
 
 
@@ -97,7 +106,6 @@
                       <div class="col-lg-1 col-md-2 hidden-xs">
                           <div class="bar__module">
                               <a href="/">
-                                  <img class="logo logo-dark" alt="logo" src="img/logo_nphcda_main.svg" />
                                   <img class="logo logo-light" alt="logo" src="img/logo_nphcda_main.svg" />
                               </a>
                           </div>
@@ -169,28 +177,18 @@
                                                     <img alt="Image"  th:src="${barcode}" width="200px">
 
                                                 </div>
-                                                <div class="col-8 text-left " style="padding-left: 15px"  >
+                                                <div class="col-8 text-left mt-0" style="padding-left: 15px"  >
 
-                                                    <span>Name</span>
+
                                                     <span class="h5 mb-0" th:text="${verifiedrecord.getFamilyName().toUpperCase()} + ' ' + ${verifiedrecord.getOtherNames().toLowerCase()}"></span>
-                                                    <span>Vaccination ID: [[${verifiedrecord.getVaccinnationID()}]]</span>
+                                                    <span class="h5 mb-0">VACCINATION ID: [[${verifiedrecord.getVaccinnationID()}]]</span>
+
+                                                    <span class="h5 mb-0">[[${verifiedrecord.getIdType()}]] : </span>
+                                                    <span class="h5 mb-0">Sex: [[${verifiedrecord.getGender}]]  |  DOB: [[${verifiedrecord.getDOB}]] </span>
 
 
-                                                    <table style="table-layout: fixed ; width: 100%;">
-                                                        <tr>
-                                                            <th class="type--fade" style="background: #fff" >Sex</th>
-                                                            <th class="type--fade" style="background: #fff">DOB</th>
-                                                            <th class="type--fade" style="background: #fff">[[${verifiedrecord.getIdType()}]]</th>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td><span class="type--fade" > [[${verifiedrecord.getGender}]]</span></td>
-                                                            <td><span class="type--fade" th:text="${verifiedrecord.getDOB()}"></span></td>
-                                                            <td><span class="type--fade" >-</span></td>
 
-                                                        </tr>
-
-                                                    </table>
 
 
 
@@ -199,19 +197,20 @@
                                                 </div>
 
                                             </div>
+                                            <br/>
 
                                             <div th:if="${validatationinfo != null && verifiedrecord.displaydot() == true}" class="row justify-content-md-center">
                                                 <div class="col"   >
 
-                                                    <img th:if="${verifiedimg != null}" alt="profile-image"  class="image--lg"  th:src="${verifiedimg}" th:style="'background:url(' + @{verified} + ');'" style="width: 140px;  border: 2px solid #006400; background-image: url('http://res.cloudinary.com/nphcdaict/image/upload/v1633926858/watermark_mvfiyj.png')" >
+                                                    <img th:if="${verifiedimg != null}" alt="profile-image"  class="image--lg"  th:src="${verifiedimg}" th:style="'background:url(' + @{verified} + ');'" style="width: 140px;  border: 2px solid #006400; background-image: url('http://res.cloudinary.com/nphcdaict/image/upload/v1633926858/watermark_mvfiyj.png'); border: 2px solid green" >
 
 
                                                 </div>
                                                 <div class="col-8 text-left " style="padding-left: 15px"  >
 
-                                                    <span>Validation ID</span>
+                                                    <span>VALIDATION ID</span>
                                                     <span class="h5 mb-0" th:text="${validatationinfo.getId()}"></span>
-                                                    <span>Site ID: [[${verifiedrecord.getSiteID()}]]</span><br/>
+                                                    <span>SITE ID: [[${verifiedrecord.getSiteID()}]]</span><br/>
                                                     <span th:text="${validatationinfo.getGeolocation()}"></span>
 
 
