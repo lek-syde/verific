@@ -316,10 +316,13 @@ public class PageController {
 
 
 
+Validator validateInfo = null;
+        if(firstresult!=null){
+            validateInfo= getImage(firstresult.getQRCode());
+        }
 
 
-
-        Validator validateInfo= getImage(firstresult.getQRCode());
+        
 
 
         String image="https://via.placeholder.com/200x200.png?text=Validation+Pending";
@@ -327,31 +330,33 @@ public class PageController {
         if(validateInfo!=null){
             image= validateInfo.getAttachments().get(0).getDownloadSmallUrl();
             text= "© NPHCDA-"+validateInfo.getId().toString();
+            // String watermarkkedimg="https://textoverimage.moesif.com/image?image_url="+image+"&text="+text+"&x_align=center&y_align=bottom&text_size=16&text_color=000000ff"+".jpg";
+            String watermarkkedimg="https://neutrinoapi.net/image-watermark?image-url="+ image+"&watermark-url=https://res.cloudinary.com/nphcdaict/image/upload/c_scale,w_200/v1633926858/watermark_mvfiyj.png&api-key=YqXLmTK9RGaMBX56EDyYTMwKbjbEiOCSmmGbdiYdeAcxofh6&user-id=leksyde&opacity=30";
+
+
+
+            System.out.println("image" +watermarkkedimg);
+
+
+            if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true")){
+
+                model.addAttribute("reddot", true);
+            }else if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true") && firstresult.getVaccationtype()=="Johnson" ){
+                model.addAttribute("reddot", true);
+            }
+            else{
+                model.addAttribute("reddot", false);
+            }
+            model.addAttribute("verifiedimg", watermarkkedimg);
         }
 
 
 
-       // String watermarkkedimg="https://textoverimage.moesif.com/image?image_url="+image+"&text="+text+"&x_align=center&y_align=bottom&text_size=16&text_color=000000ff"+".jpg";
-        String watermarkkedimg="https://neutrinoapi.net/image-watermark?image-url="+ image+"&watermark-url=https://res.cloudinary.com/nphcdaict/image/upload/c_scale,w_200/v1633926858/watermark_mvfiyj.png&api-key=YqXLmTK9RGaMBX56EDyYTMwKbjbEiOCSmmGbdiYdeAcxofh6&user-id=leksyde&opacity=30";
 
 
 
-        System.out.println("image" +watermarkkedimg);
 
 
-        if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true")){
-
-            model.addAttribute("reddot", true);
-        }else if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true") && firstresult.getVaccationtype()=="Johnson" ){
-            model.addAttribute("reddot", true);
-        }
-        else{
-            model.addAttribute("reddot", false);
-        }
-
-
-
-        model.addAttribute("verifiedimg", watermarkkedimg);
         model.addAttribute("validatationinfo", validateInfo);
 
 
