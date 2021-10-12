@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           <title>COVID-19 verification portal</title>
+    <meta property="og:title" content="NPHCDA COVID-19 Website">
+    <meta property="og:site_name" content="Vaccination verification">
+    <meta property="og:url" content="https://verification.vaccination.gov.ng/">
+    <meta property="og:description" content="Nigeria's Official vaccination website">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://res.cloudinary.com/moversng/image/upload/f_auto/v1625570907/intro_nphcda_l2ym5g.png">
+    <meta property="twitter:image" content="https://res.cloudinary.com/moversng/image/upload/f_auto/v1625570907/intro_nphcda_l2ym5g.png"  />
+
+
+
+
+        <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/stack-interface.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-15JGRP7GF5"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-15JGRP7GF5');
+        </script>
+        <style>
+            .pending{
+                background-color: darkred;
+                color: #ffffff;
+            }
+        </style>
+
+
+    </head>
+    <body  style="background-color: #007D53">
+      <div id="loader"></div>
+        <a id="start"></a>
+      <div class="nav-container " style="background: white">
+          <div class="announcment" style="background-color: #007D53; color: #ffffff; text-align: center" >
+              <a href="tel:+2347002201122" class="hamburger-toggle" style="color: #ffffff; font-size: 15px">
+                  <i class="material-icons" style="color: #ffffff; font-size: 15px">phone</i>
+                  Help Line : 0700 220 1122
+              </a>
+          </div>
+          <div class="bar bar--sm visible-xs" >
+              <div class="container">
+                  <div class="row">
+                      <div class="col-3 col-md-2">
+                          <a href="/">
+                              <img class="logo logo-dark" alt="logo" src="img/logo_nphcda_main.svg" />
+                              <img class="logo logo-light" alt="logo" src="img/logo_nphcda_main.svg" />
+                          </a>
+                      </div>
+                      <div class="col-9 col-md-10 text-right">
+                          <a href="#" class="hamburger-toggle" data-toggle-class="#menu1;hidden-xs">
+                              <i class="icon icon--sm stack-interface stack-menu "  style="margin-top: 4px; font-size: 4.357143em; color: #0e262e"></i>
+                          </a>
+                      </div>
+                  </div>
+                  <!--end of row-->
+              </div>
+              <!--end of container-->
+          </div>
+          <!--end bar-->
+          <nav id="menu1" class="bar bar--sm bar-1 hidden-xs bar--absolute bar--transparent" style="background: white">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-lg-1 col-md-2 hidden-xs">
+                          <div class="bar__module">
+                              <a href="/">
+                                  <img class="logo logo-dark" alt="logo" src="img/logo_nphcda_main.svg" />
+                                  <img class="logo logo-light" alt="logo" src="img/logo_nphcda_main.svg" />
+                              </a>
+                          </div>
+                          <!--end module-->
+                      </div>
+
+                      <div class="col-lg-11 col-md-12 text-right text-left-xs text-left-sm">
+                          <div class="bar__module">
+                              <ul class="menu-horizontal text-left">
+                                  <li style="border-bottom: 0.5px solid #28a745">
+                                      <span class="text-dark"><a target="_blank" href="https://publicreg.vaccination.gov.ng/" style="text-underline: none; color: #28a745">Registration</a></span>
+
+                                      <!--end dropdown container-->
+                                  </li>
+                                  <li style="border-bottom: 0.5px solid #28a745" >
+                                      <span class="text-dark"> <a  href="/faq" style="text-underline: none; color: #28a745" >FAQs </a></span>
+
+                                      <!--end dropdown container-->
+                                  </li>
+
+                              </ul>
+                          </div>
+                      </div>
+
+                  </div>
+                  <!--end of row-->
+              </div>
+              <!--end of container-->
+          </nav>
+          <!--end bar-->
+      </div>
+        <div class="main-container" >
+            <section class="imageblock switchable">
+
+                <div class="container" style="background-color: white; max-width: 1000px!important;">
+
+
+
+
+
+                    <div class="row justify-content-md-center">
+
+                          <div class="col-lg-6 col-md-7">
+
+
+                            <div class="heading-block">
+                                <br/>
+
+
+                            </div>
+
+
+                                <div class="card card-2 " th:if="${verifiedrecord != null}" >
+
+                                    <h4 class="text-center">Vaccination e-Certificate </h4>
+
+                                    <span class="type--fade" >Issued By: National Primary Health Care Development Agency, Nigeria</span>
+                                  <hr/>
+
+                                    <div class="boxed boxed--lg boxed--border">
+                                        <div class="text-center">
+                                           <span class="label" style="background-color: #ffffff"> <i th:if="${verifiedrecord.displaydot() == true}" style="color: red"  class="material-icons">radio_button_checked</i></span>
+                                        </div>
+                                        <div class=" clearfix text-center">
+
+                                            <div class="row justify-content-md-center">
+                                                <div class="col"   >
+
+                                                    <img alt="Image"  th:src="${barcode}" width="200px">
+
+                                                </div>
+                                                <div class="col-8 text-left " style="padding-left: 15px"  >
+
+                                                    <span>Name</span>
+                                                    <span class="h5 mb-0" th:text="${verifiedrecord.getFamilyName().toUpperCase()} + ' ' + ${verifiedrecord.getOtherNames().toLowerCase()}"></span>
+                                                    <span>Vaccination ID: [[${verifiedrecord.getVaccinnationID()}]]</span>
+
+
+                                                    <table style="table-layout: fixed ; width: 100%;">
+                                                        <tr>
+                                                            <th class="type--fade" style="background: #fff" >Sex</th>
+                                                            <th class="type--fade" style="background: #fff">DOB</th>
+                                                            <th class="type--fade" style="background: #fff">[[${verifiedrecord.getIdType()}]]</th>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="type--fade" > [[${verifiedrecord.getGender}]]</span></td>
+                                                            <td><span class="type--fade" th:text="${verifiedrecord.getDOB()}"></span></td>
+                                                            <td><span class="type--fade" >-</span></td>
+
+                                                        </tr>
+
+                                                    </table>
+
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div th:if="${validatationinfo != null}" class="row justify-content-md-center">
+                                                <div class="col"   >
+
+                                                    <img th:if="${verifiedimg != null}" alt="profile-image"  class="image--lg"  th:src="${verifiedimg}" th:style="'background:url(' + @{verified} + ');'" style="width: 140px;  border: 2px solid #006400; background-image: url('http://res.cloudinary.com/nphcdaict/image/upload/v1633926858/watermark_mvfiyj.png')" >
+
+
+                                                </div>
+                                                <div class="col-8 text-left " style="padding-left: 15px"  >
+
+                                                    <span>Validation ID</span>
+                                                    <span class="h5 mb-0" th:text="${validatationinfo.getId()}"></span>
+                                                    <span>Site ID: [[${verifiedrecord.getSiteID()}]]</span><br/>
+                                                    <span th:text="${validatationinfo.getGeolocation()}"></span>
+
+
+
+
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+
+
+                                    <ul class="accordion accordion-1 accordion--oneopen" style="min-height: 0px;">
+                                        <li class="active" >
+                                            <div class="accordion__title" th:classappend="${verifiedrecord.getVaccinnatedFirstDose() and verifiedrecord.getVaccinatedSecondDose ? 'lastdosedone' : 'novaccinnation'}"  th:style="${verifiedrecord.getVaccinnatedFirstDose()? 'border: none;background-color: #eed202;color: #000000;' : ''}"
+                                                 th:styleappend="${verifiedrecord.getVaccinatedSecondDose() || verifiedrecord.getVaccationtype()=='Johnson'? 'border: none; background-color: darkgreen ;color: #ffffff;' : '' }"
+                                            >
+
+                                                <span class="h5 type--uppercase" th:if="${verifiedrecord.getVaccinnatedFirstDose() and !verifiedrecord.getVaccinatedSecondDose and verifiedrecord.getVaccationtype()!='Johnson'}">COVID-19 - PARTIAL VACCINATION  <i style=" font-size: 10px" class="material-icons">done</i></span>
+                                                <span class="h5 type--uppercase" th:if="${!verifiedrecord.getVaccinnatedFirstDose()}" >COVID-19 - VACCINATION PENDING</span>
+                                                <span class="h5 type--uppercase" th:if="${verifiedrecord.getVaccinatedSecondDose and verifiedrecord.getVaccinnatedFirstDose() }" style="color:#ffffff">COVID-19  VACCINATION COMPLETE  <i style=" font-size: 10px" class="material-icons">done_all</i></span>
+                                                <span class="h5 type--uppercase" th:if="${verifiedrecord.getVaccinnatedFirstDose() and verifiedrecord.getVaccationtype()=='Johnson' }" style="color:#ffffff"> COVID-19 - VACCINATION COMPLETE   <i style=" font-size: 10px" class="material-icons">done_all</i></span>
+
+                                            </div>
+                                            <div class="accordion__content">
+                                                <p class="lead">
+                                                <table th:if="${!covid.isEmpty()}" cellpadding="5px">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col" style="width: 5%">Dose</th>
+                                                        <th scope="col" style="width: 20%">Date Given</th>
+                                                        <th scope="col" >Vaccine</th>
+                                                        <th scope="col" style="width: 25%">Batch No</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="covid : ${covid}">
+                                                        <td data-label="Account">[[${covid.pos}]]</td>
+                                                        <td data-label="Account">[[${covid.vaccineDate}]]</td>
+                                                        <td data-label="Due Date">[[${covid.vaccineType}]] <sup>&#174;</sup></td>
+                                                        <td data-label="Amount" >[[${covid.vaccinebatchNumber}]]</td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+                                                </p>
+                                            </div>
+                                        </li>
+
+
+                                    </ul>
+
+
+
+
+
+
+
+                                    <br/>
+
+                                    <br/>
+
+
+
+                                    <p class="text-center">All Rights Reserved 	&#169; 2021</p>
+
+
+
+
+                                    <!--<form class="justify-content-center  row mx-0" th:if="${!pagedEntities.empty}"  th:object="${verification}"-->
+                                          <!--th:action="@{/verify}"  method="GET">-->
+                                        <!--<div class="col-md-12">-->
+
+                                            <!--<input type="text" name="vackey" th:field="*{verificationID}" required="true" placeholder="NG-JGGW76232STD" class="validate-required">-->
+
+                                            <!--<button  class="btn btn-lg btn-success btn-loading" type="submit" data-loading-text="Sending">-->
+
+
+                                                <!--<span>Verify</span>-->
+                                            <!--</button>-->
+
+                                        <!--</div>-->
+
+
+
+
+                                    <!--</form>-->
+
+
+
+
+
+                                </div>
+
+                              <div class="row justify-content-center" th:if="${verifiedrecord == null && validatationinfo==null}" >
+
+
+                                  <div class="feature feature-3 boxed boxed--lg" style="text-align: center">
+
+                                      <i class="icon icon--lg material-icons" style="font-size: 80px;" >link_off</i>
+
+                                      <h2>Seems your record has not been linked or might not exist</h2>
+                                      <h3>
+                                          Ooops! seems your QR code/vaccination ID has not been linked properly.
+                                          Don't worry, try searching with your vaccination ID or visit your vaccination site.
+                                      </h3>
+
+
+                                      <br/>
+
+                                      <br/>
+
+                                      <br/>
+
+                                      <form class="justify-content-center  row mx-0"  th:object="${verification}"
+                                            th:action="@{/verify}"  method="GET">
+                                          <div class="col-md-12">
+
+                                              <input type="text" name="vackey" th:field="*{verificationID}" placeholder="NG-JGGW76232STD" required="true" class="validate-required">
+
+                                              <button  class="btn btn-lg btn-success btn-loading" type="submit" data-loading-text="Sending">
+
+
+                                                  <span>Verify</span>
+                                              </button>
+
+                                          </div>
+
+
+
+
+                                      </form>
+
+
+
+                                  </div>
+
+
+                              </div>
+
+
+                              <div class="row justify-content-center" th:if="${verifiedrecord == null && validatationinfo!=null}" >
+
+
+                                  <div class="feature feature-3 boxed boxed--lg" style="text-align: center">
+
+                                      <i class="icon icon--lg material-icons" style="font-size: 80px;" >hourglass_bottom</i>
+
+
+
+
+                                      <br/>
+
+                                      <br/>
+
+                                      <br/>
+
+                                      <form class="justify-content-center  row mx-0"  th:object="${verification}"
+                                            th:action="@{/verify}"  method="GET">
+                                          <div class="col-md-12">
+
+                                              <input type="text" name="vackey" th:field="*{verificationID}" placeholder="NG-JGGW76232STD" required="true" class="validate-required">
+
+                                              <button  class="btn btn-lg btn-success btn-loading" type="submit" data-loading-text="Sending">
+
+
+                                                  <span>Verify</span>
+                                              </button>
+
+                                          </div>
+
+
+
+
+                                      </form>
+
+
+
+                                  </div>
+
+
+                              </div>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+        </div>
+
+        <!--<div class="modal-container" data-autoshow="500">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="boxed boxed&#45;&#45;lg">-->
+                    <!--<h2>Notice</h2>-->
+                    <!--<hr class="short">-->
+                    <!--<p class="lead">-->
+                       <!--Visit your health facility to take your second dose. 12 weeks after first dose-->
+                    <!--</p>-->
+
+                    <!--<p class="lead">-->
+                       <!--visit a health facility to get immunized.-->
+                    <!--</p>-->
+
+                    <!--<p class="lead">-->
+                        <!--visit a health facility to link your QR code.-->
+                    <!--</p>-->
+
+                    <!--<p class="lead">-->
+                        <!--Detected QR Code conflicts.-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+        <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
+            <i class="stack-interface stack-up-open-big"></i>
+        </a>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/smooth-scroll.min.js"></script>
+        <script src="js/scripts.js"></script>
+
+    </body>
+</html>
