@@ -160,9 +160,8 @@
 
                                 <div class="card card-2 " th:if="${verifiedrecord != null}" >
 
-                                    <h4 class="text-center">Vaccination e-Certificate </h4>
+                                    <h4 class="text-center">VACCINATION e-CERTIFICATE </h4>
 
-                                    <span class="type--fade" >Issued By: National Primary Health Care Development Agency, Nigeria</span>
                                   <hr/>
 
                                     <div class="boxed boxed--lg boxed--border">
@@ -180,11 +179,11 @@
                                                 <div class="col-8 text-left mt-0" style="padding-left: 15px"  >
 
 
-                                                    <span class="h5 mb-0" th:text="${verifiedrecord.getFamilyName().toUpperCase()} + ' ' + ${verifiedrecord.getOtherNames().toLowerCase()}"></span>
-                                                    <span class="h5 mb-0">VACCINATION ID: [[${verifiedrecord.getVaccinnationID()}]]</span>
+                                                    <span class="h5 mb-0" th:text="${verifiedrecord.getFamilyName().toUpperCase()} + ' ' + ${verifiedrecord.getOtherNames().toUpperCase()}"></span>
+                                                    <span class="h5 mb-0">VAC ID: [[${verifiedrecord.getVaccinnationID()}]]</span>
 
-                                                    <span class="h5 mb-0">[[${verifiedrecord.getIdType()}]] : </span>
-                                                    <span class="h5 mb-0">Sex: [[${verifiedrecord.getGender}]]  |  DOB: [[${verifiedrecord.getDOB}]] </span>
+                                                    <span class="h5 mb-0">[[${verifiedrecord.getIdType()}]] NO : </span>
+                                                    <span class="h5 mb-0">SEX: [[${verifiedrecord.getGender}]]  |  DOB: [[${verifiedrecord.getDOB}]] </span>
 
 
 
@@ -208,10 +207,11 @@
                                                 </div>
                                                 <div class="col-8 text-left " style="padding-left: 15px"  >
 
-                                                    <span>VALIDATION ID</span>
-                                                    <span class="h5 mb-0" th:text="${validatationinfo.getId()}"></span>
-                                                    <span>SITE ID: [[${verifiedrecord.getSiteID()}]]</span><br/>
-                                                    <span th:text="${validatationinfo.getGeolocation()}"></span>
+                                                    <span  class="h5 mb-0" >VALIDATION ID : [[${validatationinfo.getId()}]]</span>
+                                                    <span  class="h5 mb-0" >SITE ID: [[${verifiedrecord.getSiteID()}]]</span>
+
+                                                    <span  class="h5 mb-0" >GEO-LOCATION</span>
+                                                    <span  class="h5 mb-0"  th:text="${validatationinfo.getGeolocation()}"></span>
 
 
 
@@ -256,10 +256,10 @@
                                                 <table th:if="${!covid.isEmpty()}" cellpadding="5px">
                                                     <thead>
                                                     <tr>
-                                                        <th scope="col" style="width: 5%">Dose</th>
-                                                        <th scope="col" style="width: 20%">Date Given</th>
-                                                        <th scope="col" >Vaccine</th>
-                                                        <th scope="col" style="width: 25%">Batch No</th>
+                                                        <th scope="col" style="width: 5%">DOSE</th>
+                                                        <th scope="col" style="width: 20%">DATE GIVEN</th>
+                                                        <th scope="col" >VACCINE TYPE</th>
+                                                        <th scope="col" style="width: 25%">BATCH NO</th>
 
                                                     </tr>
                                                     </thead>
@@ -283,12 +283,7 @@
 
 
 
-
-
-
-                                    <br/>
-
-                                    <br/>
+                                    <span class="type--fade" >Issued By: National Primary Health Care Development Agency, Nigeria</span>
 
 
 
