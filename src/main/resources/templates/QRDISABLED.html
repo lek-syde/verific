@@ -3,18 +3,16 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>COVID-19 verification portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta property="og:title" content="NPHCDA COVID-19 Website">
+
+    <meta property="og:title" content="NPHCDA COVID-19 Website">
     <meta property="og:site_name" content="Vaccination verification">
     <meta property="og:url" content="https://verification.vaccination.gov.ng/">
     <meta property="og:description" content="Nigeria's Official vaccination website">
     <meta property="og:type" content="article">
     <meta property="og:image" content="https://res.cloudinary.com/moversng/image/upload/f_auto/v1625570907/intro_nphcda_l2ym5g.png">
     <meta property="twitter:image" content="https://res.cloudinary.com/moversng/image/upload/f_auto/v1625570907/intro_nphcda_l2ym5g.png"  />
-
-
-
 
     <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
@@ -35,17 +33,13 @@
     <meta name="theme-color" content="#ffffff">
 
 
+
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/stack-interface.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/socicon.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/lightbox.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/flickity.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/iconsmind.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="css/jquery.steps.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-15JGRP7GF5"></script>
     <script>
@@ -56,11 +50,11 @@
         gtag('config', 'G-15JGRP7GF5');
     </script>
 </head>
-<body style="background-color: #1b5636">
+<body style="background-color: #007D53">
 <a id="start"></a>
 <div class="nav-container ">
-    <div class="announcment" style="background-color: #007D53; color: #ffffff; text-align: center" >
-        <a href="tel:+2347002201122" class="hamburger-toggle" style="color: #ffffff; font-size: 15px">
+    <div class="announcment" style="background-color: #1b5636; color: #ffffff; text-align: center" >
+        <a href="tel:+2347002201122" class="hamburger-toggle" style="color: #ffffff; font-size: 15px" >
             <i class="material-icons" style="color: #ffffff; font-size: 15px">phone</i>
             Help Line : 0700 220 1122
         </a>
@@ -93,28 +87,9 @@
                         <a href="/">
                             <img class="logo logo-dark" alt="logo" src="img/logo_nphcda_main.svg" />
                             <img class="logo logo-light" alt="logo" src="img/logo_nphcda_main.svg" />
-
                         </a>
                     </div>
                     <!--end module-->
-                </div>
-
-                <div class="col-lg-11 col-md-12 text-right text-left-xs text-left-sm">
-                    <div class="bar__module">
-                        <ul class="menu-horizontal text-left">
-                            <li style="border-bottom: 0.5px solid #28a745">
-                                <span class="text-dark"><a target="_blank" href="https://publicreg.vaccination.gov.ng/" style="text-underline: none; color: #28a745">Registration</a></span>
-
-                                <!--end dropdown container-->
-                            </li>
-                            <li style="border-bottom: 0.5px solid #28a745" >
-                                <span class="text-dark"> <a  href="/faq" style="text-underline: none; color: #28a745" >FAQs </a></span>
-
-                                <!--end dropdown container-->
-                            </li>
-
-                        </ul>
-                    </div>
                 </div>
 
             </div>
@@ -129,10 +104,30 @@
         <div class="container pos-vertical-center">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="h1--large">403</h1>
+                    <h1 class="h1--large">QR CODE</h1>
                     <p class="lead">
-                        An unexpected error has occured preventing the page from loading.
+                        We are currently having issues verifying with QR CODE
+                        PLEASE SEARCH BY VACCINATION ID. If you cannot recall your vaccination ID please CONTACT/WHATSAPP <a class="lead" href="https://api.whatsapp.com/send?phone=07002201122">0700 220 1122</a>
                     </p>
+
+                    <form class="justify-content-center  row mx-0"  th:object="${verification}"
+                          th:action="@{/verify}"  method="GET">
+                        <div class="col-md-6">
+
+                            <input type="text" name="vackey" th:field="*{verificationID}" placeholder="NG-JGGW76232STD" required="true" class="validate-required">
+
+                            <button  class="btn btn-lg btn-success btn-loading" type="submit" data-loading-text="Sending">
+
+
+                                <span>Verify</span>
+                            </button>
+
+                        </div>
+
+
+
+
+                    </form>
                     <a href="/">Go back to home page</a>
                 </div>
             </div>
@@ -146,20 +141,12 @@
     <i class="stack-interface stack-up-open-big"></i>
 </a>
 <script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/flickity.min.js"></script>
-<script src="js/easypiechart.min.js"></script>
-<script src="js/parallax.js"></script>
-<script src="js/typed.min.js"></script>
-<script src="js/datepicker.js"></script>
-<script src="js/isotope.min.js"></script>
-<script src="js/ytplayer.min.js"></script>
-<script src="js/lightbox.min.js"></script>
-<script src="js/granim.min.js"></script>
-<script src="js/jquery.steps.min.js"></script>
-<script src="js/countdown.min.js"></script>
-<script src="js/twitterfetcher.min.js"></script>
-<script src="js/spectragram.min.js"></script>
 <script src="js/smooth-scroll.min.js"></script>
 <script src="js/scripts.js"></script>
+<script>
+    $(window).load(function() {
+        $('#loading').hide();
+    });
+</script>
 </body>
 </html>
