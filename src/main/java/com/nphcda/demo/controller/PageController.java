@@ -107,133 +107,127 @@ public class PageController {
         TrackedEntityInstance firstresult = null;
 
 
-        System.out.println(id);
-        System.out.println(verificationID);
         if (id!=null){
-            System.out.println("QR CODE");
 
-            System.out.println("qr");
 
-            model.addAttribute("verification", new VerificationEntity());
-            return "QRDISABLED";
-//            // Regex to check string is alphanumeric or not.
-//            String regex = "^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$";
-//
-//
-//
-//            // Compile the ReGex
-//            Pattern p = Pattern.compile(regex);
-//
-//            Matcher m = p.matcher(id);
-//
-//            if(m.matches()){
-//
-//
-//                String hs=id.substring(6);
-//
-//                long number = Long.parseLong(hs);
-//
-//                if (number>0){
-//                    events = getAllEvents(id);
-//                    tracker = getAllEntities(events);
-//                }else{
-//                    //bad string
-//                    System.out.println("badd!! "+request.getRemoteAddr() +"-" +id);
-//                }
-//
-//
-//
-//
-//            }else{
-//                //bad string
-//                System.out.println("badd!! "+request.getRemoteAddr() +"-" +id);
-//                tracker= Collections.emptyList();
-//            }
-//
-//
-//
-//            if (!tracker.isEmpty()) {
-//                firstresult= tracker.get(0);
-//
-//                System.out.println("first "+firstresult.getFirstDosePhase());
-//                System.out.println("second "+ firstresult.getSecondDosePhase());
-//
-//                model.addAttribute("verifiedrecord", firstresult);
-//
-//                System.out.println(firstresult.getFirstDoseDate());
-//
-//                String barcode = tracker.get(0).getQRCode();
-//                if (!barcode.contains("http")) {
-//                    model.addAttribute("barcode", "https://via.placeholder.com/200x200.png?text=QR+Not+Linked");
-//                } else {
-//                    model.addAttribute("barcode", "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + barcode);
-//
-//                }
-//
-//                System.out.println("first "+firstresult.getFirstDosePhase());
-//                System.out.println("second "+ firstresult.getSecondDosePhase());
-//
-//
-//                System.out.println("first center "+firstresult.getVaccinnatedFirstDoseCenter());
-//                System.out.println("second center"+ firstresult.getVaccinatedSecondDoseCenter());
-//
-//                String firststatecode=firstresult.getVaccinnatedFirstDoseCenter().substring(0,2);
-//                String secondstatecode =firstresult.getVaccinatedSecondDoseCenter().substring(0,2);
-//
-//                System.out.println("bae"+ firststatecode);
-//
-//                System.out.println("vactype"+ firstresult.getVaccationtype());
-//                String batch = null;
-//                String batch2= null;
-//
-//                List<Vaccination> myVaccinations = new ArrayList<>() ;
-//                System.out.println("hmm"+firstresult.getVaccinnatedFirstDose());
-//
-//
-//
-//                if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
-//                    VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
-//                    batch= firstdist.getBatch();
-//                    myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
-//                }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
-//                    myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
-//                }
-//
-//
-//                if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
-//                    VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
-//                    batch2= seconddist.getBatch();
-//                    myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
-//
-//                }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()==0){
-//                    myVaccinations.add(new Vaccination(ordinal(2), "-", "-", "-"));
-//                }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//                model.addAttribute("covid", myVaccinations);
-//
-//
-//
-//                tracker.remove(0);
-//                Page<TrackedEntityInstance> pagedEntities = entityService.findPaginated(PageRequest.of(1 - 1, 2), tracker);
-//
-//                int totalPages = pagedEntities.getTotalPages();
-//                if (totalPages > 0) {
-//                    List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                            .boxed()
-//                            .collect(Collectors.toList());
-//                    model.addAttribute("pageNumbers", pageNumbers);
-//                }
-//
-//                model.addAttribute("pagedEntities", pagedEntities);
-//            }
+            // Regex to check string is alphanumeric or not.
+            String regex = "^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$";
+
+
+
+            // Compile the ReGex
+            Pattern p = Pattern.compile(regex);
+
+            Matcher m = p.matcher(id);
+
+            if(m.matches()){
+
+
+                String hs=id.substring(6);
+
+                long number = Long.parseLong(hs);
+
+                if (number>0){
+                    events = getAllEvents(id);
+                    tracker = getAllEntities(events);
+                }else{
+                    //bad string
+                    System.out.println("badd!! "+request.getRemoteAddr() +"-" +id);
+                }
+
+
+
+
+            }else{
+                //bad string
+                System.out.println("badd!! "+request.getRemoteAddr() +"-" +id);
+                tracker= Collections.emptyList();
+            }
+
+
+
+            if (!tracker.isEmpty()) {
+                firstresult= tracker.get(0);
+
+                System.out.println("first "+firstresult.getFirstDosePhase());
+                System.out.println("second "+ firstresult.getSecondDosePhase());
+
+                model.addAttribute("verifiedrecord", firstresult);
+
+                System.out.println(firstresult.getFirstDoseDate());
+
+                String barcode = tracker.get(0).getQRCode();
+                if (!barcode.contains("http")) {
+                    model.addAttribute("barcode", "https://via.placeholder.com/200x200.png?text=QR+Not+Linked");
+                } else {
+                    model.addAttribute("barcode", "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + barcode);
+
+                }
+
+                System.out.println("first "+firstresult.getFirstDosePhase());
+                System.out.println("second "+ firstresult.getSecondDosePhase());
+
+
+                System.out.println("first center "+firstresult.getVaccinnatedFirstDoseCenter());
+                System.out.println("second center"+ firstresult.getVaccinatedSecondDoseCenter());
+
+                String firststatecode=firstresult.getVaccinnatedFirstDoseCenter().substring(0,2);
+                String secondstatecode =firstresult.getVaccinatedSecondDoseCenter().substring(0,2);
+
+                System.out.println("bae"+ firststatecode);
+
+                System.out.println("vactype"+ firstresult.getVaccationtype());
+                String batch = null;
+                String batch2= null;
+
+                List<Vaccination> myVaccinations = new ArrayList<>() ;
+                System.out.println("hmm"+firstresult.getVaccinnatedFirstDose());
+
+
+
+                if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
+                    VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
+                    batch= firstdist.getBatch();
+                    myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
+                }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
+                    myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
+                }
+
+
+                if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
+                    VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
+                    batch2= seconddist.getBatch();
+                    myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
+
+                }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()==0){
+                    myVaccinations.add(new Vaccination(ordinal(2), "-", "-", "-"));
+                }
+
+
+
+
+
+
+
+
+
+                model.addAttribute("covid", myVaccinations);
+
+
+
+                tracker.remove(0);
+                Page<TrackedEntityInstance> pagedEntities = entityService.findPaginated(PageRequest.of(1 - 1, 2), tracker);
+
+                int totalPages = pagedEntities.getTotalPages();
+                if (totalPages > 0) {
+                    List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                            .boxed()
+                            .collect(Collectors.toList());
+                    model.addAttribute("pageNumbers", pageNumbers);
+                }
+
+                model.addAttribute("pagedEntities", pagedEntities);
+            }
         }
 
         else{
