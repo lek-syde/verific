@@ -5743,7 +5743,7 @@ body.dropdowns--hover .nav-sidebar-column .dropdown:hover > .dropdown__container
 }
 .card-2 .card__bottom > div {
   display: inline-block;
-  width: 50%;
+  width: 25%;
   float: left;
 }
 .card-2 .card__bottom .h6 {
