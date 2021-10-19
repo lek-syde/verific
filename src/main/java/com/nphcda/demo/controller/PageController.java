@@ -9,9 +9,12 @@ import com.nphcda.demo.DTO.*;
 import com.nphcda.demo.EventDTO.Event;
 import com.nphcda.demo.EventDTO.Events;
 import com.nphcda.demo.Service.EntityService;
+import com.nphcda.demo.entity.Healthcenter;
 import com.nphcda.demo.entity.VaccineDistribution;
 import com.nphcda.demo.kobo.Validator;
+import com.nphcda.demo.repo.HealthCenterRepo;
 import com.nphcda.demo.repo.Vaccinedistrepo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -52,6 +55,9 @@ public class PageController {
     @Autowired
     Vaccinedistrepo vaccinedistrepo;
 
+    @Autowired
+    HealthCenterRepo healthCenterRepo;
+
     @Value("${dhis-url}")
     private String dhisurl;
 
@@ -80,6 +86,29 @@ public class PageController {
         model.addAttribute("verification", new VerificationEntity());
         return "index";
     }
+
+
+
+
+    @RequestMapping(value = "/healthfacility", method = RequestMethod.GET)
+    public String showHealthfacilityverification(Model model,  @RequestParam (required = true) String id){
+
+
+        String barcode= "http://verification.vaccination.gov.ng/health-facility?id="+id;
+
+        if(!healthCenterRepo.existsByOrganizationuit(id)){
+            return "InvalidFaclity";
+
+        }
+        Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
+
+        model.addAttribute("healthcenter", hc);
+
+        model.addAttribute("barcode", "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + barcode);
+
+        return "healthfacility";
+    }
+
 
     @RequestMapping(value = "/faq", method = RequestMethod.GET)
     public String showFaq(Model model){
@@ -257,11 +286,16 @@ public class PageController {
                 List<Vaccination> myVaccinations = new ArrayList<>() ;
                 System.out.println("hmm"+firstresult.getVaccinnatedFirstDose());
                 if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
+
+
                     System.out.println(firststatecode);
                     System.out.println(firstresult.getVaccationtype());
                     System.out.println(firstresult.getFirstDosePhase());
 
+
+
                     VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
+
                     batch= firstdist.getBatch();
                     myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
