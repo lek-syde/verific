@@ -110,6 +110,60 @@ public class PageController {
     }
 
 
+    @RequestMapping(value = "/rating", method = RequestMethod.GET)
+    public String saveFacilityRating(Model model,  @RequestParam (required = true) String id){
+
+
+
+        if(!healthCenterRepo.existsByOrganizationuit(id)){
+            return "InvalidFaclity";
+
+        }
+        Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
+
+        model.addAttribute("healthcenter", hc);
+
+
+        return "rating";
+    }
+
+
+    @RequestMapping(value = "/rating2", method = RequestMethod.GET)
+    public String saveFacilityRating2(Model model,  @RequestParam (required = true) String id){
+
+
+
+        if(!healthCenterRepo.existsByOrganizationuit(id)){
+            return "InvalidFaclity";
+
+        }
+        Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
+
+        model.addAttribute("healthcenter", hc);
+
+
+        return "rating2";
+    }
+
+
+    @RequestMapping(value = "/rating3", method = RequestMethod.GET)
+    public String saveFacilityRating3(Model model,  @RequestParam (required = true) String id){
+
+
+
+        if(!healthCenterRepo.existsByOrganizationuit(id)){
+            return "InvalidFaclity";
+
+        }
+        Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
+
+        model.addAttribute("healthcenter", hc);
+
+
+        return "rating3";
+    }
+
+
     @RequestMapping(value = "/faq", method = RequestMethod.GET)
     public String showFaq(Model model){
         model.addAttribute("verification", new VerificationEntity());
@@ -395,6 +449,7 @@ Validator validateInfo = null;
 
 
         model.addAttribute("validatationinfo", validateInfo);
+
 
 
 

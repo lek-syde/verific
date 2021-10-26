@@ -29,6 +29,8 @@ import java.util.*;
 @Generated("jsonschema2pojo")
 public class TrackedEntityInstance {
 
+    String vaccinationid;
+
     @JsonProperty("created")
     private String created;
     @JsonProperty("orgUnit")
@@ -1270,6 +1272,15 @@ public class TrackedEntityInstance {
 
     public void setFirstDoseDate(String firstDoseDate) {
         this.firstDoseDate = firstDoseDate;
+    }
+
+    public String getVaccinationid() {
+        vaccinationid=getVaccinnationID();
+        return vaccinationid;
+    }
+
+    public void setVaccinationid(String vaccinationid) {
+        this.vaccinationid = vaccinationid;
     }
 
     public TrackedEntityInstance() {
