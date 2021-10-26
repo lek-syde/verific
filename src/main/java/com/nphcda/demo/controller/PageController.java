@@ -10,9 +10,11 @@ import com.nphcda.demo.EventDTO.Event;
 import com.nphcda.demo.EventDTO.Events;
 import com.nphcda.demo.Service.EntityService;
 import com.nphcda.demo.entity.Healthcenter;
+import com.nphcda.demo.entity.Rating;
 import com.nphcda.demo.entity.VaccineDistribution;
 import com.nphcda.demo.kobo.Validator;
 import com.nphcda.demo.repo.HealthCenterRepo;
+import com.nphcda.demo.repo.RatingRepo;
 import com.nphcda.demo.repo.Vaccinedistrepo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +83,9 @@ public class PageController {
     WebClient webClient;
 
 
+    @Autowired
+    RatingRepo ratingRepo;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showIndex(Model model){
@@ -104,6 +110,8 @@ public class PageController {
 
         model.addAttribute("healthcenter", hc);
 
+
+
         model.addAttribute("barcode", "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + barcode);
 
         return "healthfacility";
@@ -111,7 +119,7 @@ public class PageController {
 
 
     @RequestMapping(value = "/rating", method = RequestMethod.GET)
-    public String saveFacilityRating(Model model,  @RequestParam (required = true) String id){
+    public String saveFacilityRating(Model model,  @RequestParam (required = true) String id, @RequestParam  (required = false) String show){
 
 
 
@@ -121,50 +129,32 @@ public class PageController {
         }
         Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
 
+        model.addAttribute("rating", new Rating(hc.getState(), hc.getOrganizationuit(), hc.getHealthCenter()));
         model.addAttribute("healthcenter", hc);
+
+       model.addAttribute("saved", show);
+
+        System.out.println("ghg"+show);
 
 
         return "rating";
     }
 
 
-    @RequestMapping(value = "/rating2", method = RequestMethod.GET)
-    public String saveFacilityRating2(Model model,  @RequestParam (required = true) String id){
+    @RequestMapping(value = "/rate", method = RequestMethod.POST)
+    public String homePage(Model model, @ModelAttribute("rating") Rating rating, HttpServletRequest request) throws ParseException, IOException {
 
-
-
-        if(!healthCenterRepo.existsByOrganizationuit(id)){
-            return "InvalidFaclity";
-
-        }
-        Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
-
-        model.addAttribute("healthcenter", hc);
-
-
-        return "rating2";
+        System.out.println(rating.getComment());
+        ratingRepo.save(rating);
+        model.addAttribute("saved", true);
+        return "redirect:/rating?id=" +rating.getFacilityid()+"&show=true";
     }
 
 
-    @RequestMapping(value = "/rating3", method = RequestMethod.GET)
-    public String saveFacilityRating3(Model model,  @RequestParam (required = true) String id){
 
 
 
-        if(!healthCenterRepo.existsByOrganizationuit(id)){
-            return "InvalidFaclity";
-
-        }
-        Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
-
-        model.addAttribute("healthcenter", hc);
-
-
-        return "rating3";
-    }
-
-
-    @RequestMapping(value = "/faq", method = RequestMethod.GET)
+        @RequestMapping(value = "/faq", method = RequestMethod.GET)
     public String showFaq(Model model){
         model.addAttribute("verification", new VerificationEntity());
         return "faq";
@@ -178,6 +168,7 @@ public class PageController {
         return  ResponseEntity.ok(new StatusMessage("success", "Great"));
 
     }
+
 
 
 
@@ -268,9 +259,18 @@ public class PageController {
 
 
 
+
+
+
                 if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
                     VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
+
                     batch= firstdist.getBatch();
+
+                    //for FCT ONLY
+                    if(firststatecode.contains("fc")){
+                        batch=firstresult.getfirstdosebatchno();
+                    }
                     myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
@@ -280,6 +280,12 @@ public class PageController {
                 if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
                     VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
                     batch2= seconddist.getBatch();
+                    //for FCT ONLY
+                    if(secondstatecode.contains("fc")){
+                       batch2=firstresult.getseconddosebatchno();
+                    }
+
+
                     myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
 
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()==0){
@@ -351,6 +357,10 @@ public class PageController {
                     VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
 
                     batch= firstdist.getBatch();
+                    //FOR FCT ONLU
+                    if(firststatecode.contains("fc")){
+                        batch=firstresult.getfirstdosebatchno();
+                    }
                     myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
@@ -358,7 +368,13 @@ public class PageController {
 
                 if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
                     VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
+                    //for FCT ONLY
                     batch2= seconddist.getBatch();
+
+                    if(secondstatecode.contains("fc")){
+                        batch2=firstresult.getseconddosebatchno();
+                    }
+
                     myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
 
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()==0){

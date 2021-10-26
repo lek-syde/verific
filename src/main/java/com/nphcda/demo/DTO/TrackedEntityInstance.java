@@ -1179,6 +1179,81 @@ public class TrackedEntityInstance {
         return "false";
     }
 
+
+    public String getfirstdosebatchno() {
+        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
+
+            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
+            String orgUnit= enrollments.get(0).getEvents().get(i).getOrgUnit();
+            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
+
+                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
+                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
+
+
+
+                    if(value.contains("DOSE1")){
+
+                     return getBatch(i);
+
+
+                    }
+
+
+
+
+            }
+
+        }
+        return "-";
+    }
+
+
+    public String getseconddosebatchno() {
+        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
+
+            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
+            String orgUnit= enrollments.get(0).getEvents().get(i).getOrgUnit();
+            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
+
+                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
+                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
+
+
+
+                if(value.contains("DOSE2")){
+
+                    return getBatch(i);
+
+
+                }
+
+
+
+
+            }
+
+        }
+        return "-";
+    }
+
+
+    public String getBatch(int pos){
+
+
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+
+            if(de.contains("CfIjmVobuul")){
+
+                System.out.println("jkkj"+ value);
+                return value;
+            }
+
+        }
+        return "-";
+    }
     private String secondDoseVacsiteid() {
         for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
 
