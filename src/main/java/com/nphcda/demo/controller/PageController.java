@@ -265,12 +265,10 @@ public class PageController {
                 if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
                     VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
 
-                    batch= firstdist.getBatch();
 
-                    //for FCT ONLY
-                    if(firststatecode.contains("fc")){
+
                         batch=firstresult.getfirstdosebatchno();
-                    }
+
                     myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
@@ -279,11 +277,9 @@ public class PageController {
 
                 if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
                     VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
-                    batch2= seconddist.getBatch();
-                    //for FCT ONLY
-                    if(secondstatecode.contains("fc")){
+
                        batch2=firstresult.getseconddosebatchno();
-                    }
+
 
 
                     myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
@@ -356,11 +352,9 @@ public class PageController {
 
                     VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
 
-                    batch= firstdist.getBatch();
-                    //FOR FCT ONLU
-                    if(firststatecode.contains("fc")){
+
                         batch=firstresult.getfirstdosebatchno();
-                    }
+
                     myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
@@ -369,11 +363,9 @@ public class PageController {
                 if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
                     VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
                     //for FCT ONLY
-                    batch2= seconddist.getBatch();
 
-                    if(secondstatecode.contains("fc")){
                         batch2=firstresult.getseconddosebatchno();
-                    }
+
 
                     myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
 
@@ -423,7 +415,7 @@ public class PageController {
 
 
 
-Validator validateInfo = null;
+        Validator validateInfo = null;
         if(firstresult!=null){
             validateInfo= getImage(firstresult.getQRCode());
         }

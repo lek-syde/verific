@@ -1194,7 +1194,12 @@ public class TrackedEntityInstance {
 
                     if(value.contains("DOSE1")){
 
-                     return getBatch(i);
+                        System.out.println("dose 1");
+
+                        if(checkIfTheresBatch(i)){
+                            return getBatch(i);
+                        }
+
 
 
                     }
@@ -1223,7 +1228,9 @@ public class TrackedEntityInstance {
 
                 if(value.contains("DOSE2")){
 
-                    return getBatch(i);
+                    if(checkIfTheresBatch(i)){
+                        return getBatch(i);
+                    }
 
 
                 }
@@ -1240,6 +1247,7 @@ public class TrackedEntityInstance {
 
     public String getBatch(int pos){
 
+        System.out.println("eventpos"+ pos);
 
         for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
             String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
@@ -1253,6 +1261,24 @@ public class TrackedEntityInstance {
 
         }
         return "-";
+    }
+
+    public boolean checkIfTheresBatch(int pos){
+
+        System.out.println("eventpos"+ pos);
+
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+
+            if(de.contains("CfIjmVobuul")){
+
+                System.out.println("jkkj"+ value);
+                return true;
+            }
+
+        }
+        return false;
     }
     private String secondDoseVacsiteid() {
         for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
