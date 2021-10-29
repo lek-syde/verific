@@ -502,7 +502,7 @@ public class PageController {
 
                 model.addAttribute("covid", myVaccinations);
                 model.addAttribute("verifiedrecord", firstresult);
-                System.out.println(firstresult.getTrackedEntityInstance());
+                System.out.println("hey"+firstresult.getTrackedEntityInstance());
 
                 model.addAttribute("ver",new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDob(), firstresult.getPhonenumber()));
                 firstresult.setVaccinationid(firstresult.getVaccinnationID());
@@ -531,6 +531,9 @@ public class PageController {
                             .collect(Collectors.toList());
                     model.addAttribute("pageNumbers", pageNumbers);
                 }
+
+                System.out.println(firstresult.toString());
+
 
                 model.addAttribute("pagedEntities", pagedEntities);
             }
@@ -583,6 +586,8 @@ public class PageController {
         model.addAttribute("validatationinfo", validateInfo);
 
 
+
+        model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDob(), firstresult.getPhonenumber()));
 
 
         model.addAttribute("verification", new VerificationEntity());
