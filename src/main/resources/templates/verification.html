@@ -37,9 +37,13 @@
         <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/stack-interface.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/flickity.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+
 
 
 
@@ -55,6 +59,15 @@
 
         <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=616bfbb638f8310012c866ef&product=sticky-share-buttons" async="async"></script>
         <style>
+            .picker__select--year{
+                font-size: 15px;
+            }
+            .picker__select--month{
+                font-size: 15px;
+            }
+            .picker{
+                width: 100%;
+            }
             .pending{
                 background-color: darkred;
                 color: #ffffff;
@@ -224,9 +237,11 @@
 
 
 
-                                            <!--<a class="btn btn-sm btn-success btn&#45;&#45;icon" style="float: left" href="#" data-notification-link="newsletter-1">-->
-                                                <!--<span class="btn__text text-white"><i class="material-icons">edit</i>Update Info</span>-->
-                                            <!--</a>-->
+
+                                            <a href="#" data-notification-link="newsletter-1" style="float: left; color: #007d53">
+                                                <i class="material-icons">edit</i>
+                                                <span>Edit Bio</span>
+                                            </a>
 
 
                                         </div>
@@ -461,59 +476,210 @@
         <!--</div>-->
 
       <div class="notification pos-right pos-bottom col-md-4 col-lg-3" data-animation="from-bottom" data-notification-link="newsletter-1">
-          <div class="feature feature-1 text-center">
+          <div class="feature feature-1 text-left">
 
               <div class="feature__body boxed boxed--lg boxed--border">
                   <div class="modal-close modal-close-cross"></div>
-                  <div class="text-block">
-                      <h3>Update Bio Details</h3>
-                      <p>
+
+                  <form th:action="@{/updatedetails}"  method="POST"  class="justify-content-left" th:object="${ver}"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
+
+                      <b>
                           Enter the phone number you registered with to request access
-                      </p>
-                  </div>
-                  <!--<form class="justify-content-left" th:object="${verifiedrecord}"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">-->
-                      <!--<input class="validate-required"  th:field="*{vaccinationid}" type="text" disabled="true" style="font-size: 16px"  />-->
-                      <!--<input class="validate-required validate-email" type="phone" name="EMAIL" placeholder="070635273232" style="font-size: 16px" />-->
+                      </b>
 
-                      <!--<button type="button" class="btn-sm btn-success type&#45;&#45;uppercase">Request Access</button>-->
-                      <!--<br/>-->
+
+                      <div  class="row justify-content-md-left">
 
 
 
-                      <!--<h6 class="text-left">Type of ID</h6>-->
-                      <!--<div class="input-select">-->
-                          <!--<select style="font-size: 16px">-->
-                              <!--<option selected="" value="Default">Select An Option</option>-->
-                              <!--<option value="nin">National ID (NIN)</option>-->
-                              <!--<option value="dl">Driver's License</option>-->
-                              <!--<option value="ip">International Passport</option>-->
-                              <!--<option value="vc">Voters Card</option>-->
-                              <!--<option value="ot">I don't have</option>-->
-                          <!--</select>-->
-                      <!--</div>-->
 
-                      <!--<h5 class="text-left">ID Number</h5>-->
-                      <!--<input class="validate-required validate-email" type="text"  placeholder="070635273232" style="font-size: 16px" />-->
+                          <input hidden class="validate-required" id="vacid"  th:field="*{vacnum}" type="text" disabled="true" style="font-size: 16px"  />
+
+                          <div class="col-4">
+                                  <h5 style="font-size: 20px">Phone:</h5>
+                              </div>
+                              <div class="col-8 text-left "  >
+                              <input class="validate-required" id="phonenumber"  th:field="*{phone}" type="text" style="font-size:15px"/>
+
+                              </div>
+                              <button id="checker" style="margin-left: 20px" type="button" class="btn-sm btn-success type--uppercase">Request Access</button>
 
 
-                      <!--<h5 class="text-left">Date Of Birth</h5>-->
-                      <!--<input class="validate-required validate-email" type="text"  placeholder="070635273232" style="font-size: 16px" />-->
+                      </div>
 
 
-                      <!--<img src="img/loading.gif" width="100px" alt="loading-icon">-->
-                  <!--</form>-->
+<br/>
+                      <div id="edit" class="row justify-content-md-left">
+
+
+                          <div class="col">
+                              <h5 class="text-left">Date Of Birth</h5>
+                          </div>
+                          <div class="col"  >
+                              <input type="text"   name="date" id="datepicker" th:field="*{dob}"  style="font-size: 15px" />
+
+                          </div>
+
+
+                          <div class="col">
+                              <h5 class="text-left">Type of ID</h5>
+                          </div>
+
+                          <div class="col">
+                              <div class="input-select">
+                                  <select style="font-size: 16px" th:field="*{idtype}">
+                                      <option value="nin">NIN</option>
+                                      <option value="dl">Driver's License</option>
+                                      <option value="ip">International Passport</option>
+                                      <option value="vc">Voters Card</option>
+                                      <option value="ot">I don't have</option>
+                                  </select>
+                              </div>
+                          </div>
+
+
+
+                        <div class="col">
+                            <h5 class="text-left">ID Number</h5>
+                        </div>
+
+                          <div class="col">
+
+                              <input class="validate-required validate-email" type="text" th:field="*{idnum}"  style="font-size: 16px" />
+
+                          </div>
+
+
+
+
+
+
+
+                      </div>
+                      <br/>
+
+
+                      <button type="submit" id="subbtn" class="btn-sm btn-success type--uppercase">Update Details</button>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <br/>
+                      <div class="alert bg--success" id="notif">
+                          <div class="alert__body" >
+                              <p id="notiftext" style="color: black"></p>
+                          </div>
+                          <div class="alert__close">×</div>
+                      </div>
+
+
+
+
+                  </form>
               </div>
               <div class="notification-close-cross notification-close-cross--circle notification-close"></div>
           </div>
           <!--end feature-->
       </div>
 
+
+
+
         <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
             <i class="stack-interface stack-up-open-big"></i>
         </a>
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/smooth-scroll.min.js"></script>
-        <script src="js/scripts.js"></script>
+
+
+      <script src="js/jquery-3.1.1.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+      <script src="js/flickity.min.js"></script>
+      <script src="js/easypiechart.min.js"></script>
+      <script src="js/parallax.js"></script>
+      <script src="js/typed.min.js"></script>
+      <script src="js/datepicker.js"></script>
+      <script src="js/isotope.min.js"></script>
+      <script src="js/ytplayer.min.js"></script>
+      <script src="js/lightbox.min.js"></script>
+      <script src="js/granim.min.js"></script>
+      <script src="js/jquery.steps.min.js"></script>
+      <script src="js/countdown.min.js"></script>
+      <script src="js/twitterfetcher.min.js"></script>
+      <script src="js/spectragram.min.js"></script>
+      <script src="js/smooth-scroll.min.js"></script>
+      <script src="js/scripts.js"></script>
+
+
+    <script>
+
+        $("#datepicker" ).datepicker({
+                changeYear: true,
+                changeMonth:true,
+                maxDate: '-18y'
+
+        });
+
+        $("#datepicker").datepicker(  "option", "maxDate", "-18y" );
+        $("#datepicker").datepicker(  "option", "minDate", "-100y" );
+
+        $("#datepicker").datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+
+
+        var notification= document.getElementById("notif");
+        notification.style.display="none";
+        var edit= document.getElementById("edit");
+        var subbtn= document.getElementById("subbtn");
+        subbtn.style.display="none";
+
+        edit.style.display="none";
+
+        checker.addEventListener("click", checkavailability);
+
+        function showEditdetails() {
+            edit.style.display="block";
+            subbtn.style.display="block";
+        }
+
+        function checkavailability(event) {
+
+            var vacid = document.getElementById("vacid").value;
+            var phone = document.getElementById("phonenumber").value;
+            var notification= document.getElementById("notif");
+
+            console.log(vacid);
+            console.log(phone);
+
+
+
+            $.ajax({
+                type: 'GET',
+                url: "/getAccess?phone=" + phone,
+                success: function(data){
+
+                    console.log("checking facility "+data)
+
+
+
+
+                    console.log(data.status)
+                    if(data.status=="success"){
+                        showEditdetails();
+                    }else{
+                        edit.style.display="none";
+                        subbtn.style.display="none";
+                    }
+                    document.getElementById("notiftext").innerHTML = data.message;
+                    notification.style.display="block";
+
+
+
+                },
+                error:function(){
+                    alert("error");
+                }
+
+            });
+        }
+    </script>
 
     </body>
 </html>

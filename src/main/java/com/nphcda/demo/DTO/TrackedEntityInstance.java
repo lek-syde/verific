@@ -31,6 +31,14 @@ public class TrackedEntityInstance {
 
     String vaccinationid;
 
+    String phonenumber;
+
+    String dob;
+
+    String idtypee;
+
+    String idnum;
+
     @JsonProperty("created")
     private String created;
     @JsonProperty("orgUnit")
@@ -585,6 +593,27 @@ public class TrackedEntityInstance {
     }
 
 
+    @JsonIgnore
+    public String getDHISPhoneNumber() {
+
+        for (int i=0; i<attributes.size(); i++) {
+
+
+
+            String de = attributes.get(i).getAttribute();
+            String value = attributes.get(i).getValue();
+
+            if (de.contains("Xhzv5vjYeOW")) {
+                return value;
+
+            }
+
+
+        }
+        return "-";
+    }
+
+
 
     @JsonIgnore
     public String getFamilyName() {
@@ -1079,6 +1108,38 @@ public class TrackedEntityInstance {
 
     }
 
+    public String getIdType2(){
+
+        for (int i=0; i<attributes.size(); i++) {
+
+
+
+            String de = attributes.get(i).getAttribute();
+            String value = attributes.get(i).getValue();
+
+            if (de.contains("OvGXY097Hxt")) {
+
+
+
+                if(value.equalsIgnoreCase("IP")){
+                    return "International Passport";
+                }else if(value.equalsIgnoreCase("VC")){
+                    return "Voters Card";
+                }else if(value.equalsIgnoreCase("DL")){
+                    return "Driver's License";
+                }else
+                    return value.toUpperCase();
+
+            }
+
+
+        }
+        return "";
+
+
+
+    }
+
     public String getDocumentId(){
 
         for (int i=0; i<attributes.size(); i++) {
@@ -1380,8 +1441,46 @@ public class TrackedEntityInstance {
         return vaccinationid;
     }
 
+
+    public String getPhonenumber() {
+
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
     public void setVaccinationid(String vaccinationid) {
         this.vaccinationid = vaccinationid;
+    }
+
+
+    public String getDob() {
+        dob= getDOB();
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getIdtypee() {
+        idtypee= getIdType2();
+        return idtypee;
+    }
+
+    public void setIdtypee(String idtype) {
+        this.idtypee = idtype;
+    }
+
+    public String getIdnum() {
+        idnum=getDocumentId();
+        return idnum;
+    }
+
+    public void setIdnum(String idnum) {
+        this.idnum = idnum;
     }
 
     public TrackedEntityInstance() {

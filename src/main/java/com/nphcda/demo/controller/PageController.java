@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.nphcda.demo.DTO.*;
 import com.nphcda.demo.EventDTO.Event;
 import com.nphcda.demo.EventDTO.Events;
@@ -16,29 +15,30 @@ import com.nphcda.demo.kobo.Validator;
 import com.nphcda.demo.repo.HealthCenterRepo;
 import com.nphcda.demo.repo.RatingRepo;
 import com.nphcda.demo.repo.Vaccinedistrepo;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,6 +63,9 @@ public class PageController {
 
     @Value("${dhis-url}")
     private String dhisurl;
+
+    @Value("${dhis-url-update}")
+    private String dhisurlforupdate;
 
     @Value("${kobo-url}")
     private String koboUrl;
@@ -94,6 +97,121 @@ public class PageController {
     }
 
 
+
+    @RequestMapping(value = "/updatedetails", method = RequestMethod.POST)
+    public String homePage(Model model, @ModelAttribute("ver") EditDTO trackedEntityInstance, HttpServletRequest request,HttpSession session) throws ParseException, IOException, URISyntaxException {
+
+        System.out.println("saving");
+
+        TrackedEntityInstance recordDetails = (TrackedEntityInstance) session.getAttribute("verifiedrecord");
+
+        System.out.println("wow"+ recordDetails.getTrackedEntityInstance());
+        trackedEntityInstance.setTrackedentitype(recordDetails.getTrackedEntityInstance());
+        trackedEntityInstance.setOrgUnit(recordDetails.getOrgUnit());
+
+        updateToDHIS(trackedEntityInstance);
+
+        return "redirect:/verify?verificationID="+recordDetails.getVaccinnationID();
+    }
+
+
+    @Autowired
+    private RestTemplateBuilder restTemplateBuilder;
+    private void updateToDHIS(EditDTO user) throws URISyntaxException {
+        System.out.println("sending");
+
+        webClient = WebClient.builder()
+                .defaultHeaders(header -> header.setBasicAuth(dhisusernam, dhispassword))
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .baseUrl(dhisurlforupdate)
+                .build();
+        // String url = "https://jmeter.e4eweb.space/dhis2/api/trackedEntityInstances.json?ou=s5DPBsdoE8b&program=gWuxRU2yJ1x&ouMode=CAPTURE&filter=izttywqePh2:EQ:NG-RJ89430232GV&fields=*";
+
+
+
+
+        String url2 = dhisurlforupdate+"/dhis2/api/trackedEntityInstances/"+user.getTrackedentitype();
+
+
+        // create auth credentials
+
+
+
+
+        TrackedEntityInstancem trackedEntityInstance= new TrackedEntityInstancem();
+        trackedEntityInstance.setOrgUnit(user.getOrgUnit());
+        trackedEntityInstance.setTrackedEntityType("ag6Yk7fwUEe");
+
+        List<Attribute> attributes= new ArrayList<>();
+
+
+
+        Attribute typeofid= new Attribute();
+        typeofid.setAttribute("OvGXY097Hxt");
+        typeofid.setValue(user.getIdtype());
+
+        Attribute documentid= new Attribute();
+        documentid.setAttribute("fXHMMrKgEWk");
+        documentid.setValue(user.getIdnum());
+
+        Attribute dob2= new Attribute();
+        dob2.setAttribute("mAWcalQYYyk");
+        dob2.setValue(user.getDob());
+
+        List<Enrollment> enrollments= new ArrayList<>();
+
+
+
+
+        attributes.add(typeofid);
+        attributes.add(documentid);
+        attributes.add(dob2);
+
+
+        trackedEntityInstance.setAttributes(attributes);
+
+        trackedEntityInstance.setEnrollments(enrollments);
+
+
+
+
+        RestTemplate restTemplate = restTemplateBuilder.basicAuthentication(dhisusernam,dhispassword).build();
+        URI uri = new URI(url2);
+
+
+        System.out.println(url2);
+        System.out.println(trackedEntityInstance.toString());
+      restTemplate.put(uri, trackedEntityInstance);
+
+
+
+
+
+        // This method returns filter function which will log request data
+
+
+
+
+    }
+
+
+
+        @GetMapping(value = "/getAccess")
+    public ResponseEntity<StatusMessage> getwards(@RequestParam(name = "phone", required = true) String phone, HttpSession session) {
+
+        TrackedEntityInstance recordDetails = (TrackedEntityInstance) session.getAttribute("verifiedrecord");
+        System.out.println("thisphone"+ phone);
+        System.out.println(recordDetails.getDHISPhoneNumber());
+
+        if(phone.equalsIgnoreCase(recordDetails.getDHISPhoneNumber())){
+           return ResponseEntity.ok(new StatusMessage("success", "Edit Access Granted "));
+
+        }
+
+        System.out.println("wrong");
+       return ResponseEntity.ok(new StatusMessage("error", "Edit Access Denied"));
+
+    }
 
 
     @RequestMapping(value = "/healthfacility", method = RequestMethod.GET)
@@ -173,7 +291,7 @@ public class PageController {
 
 
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
-    public String homePage(Model model, @RequestParam (required = false) String id, @RequestParam(required = false) String verificationID, HttpServletRequest request) throws ParseException, IOException {
+    public String homePage(Model model, @RequestParam (required = false) String id, @RequestParam(required = false) String verificationID, HttpServletRequest request, HttpSession session) throws ParseException, IOException {
 
         List<TrackedEntityInstance> tracker = null;
         List<Event> events;
@@ -384,6 +502,12 @@ public class PageController {
 
                 model.addAttribute("covid", myVaccinations);
                 model.addAttribute("verifiedrecord", firstresult);
+                System.out.println(firstresult.getTrackedEntityInstance());
+
+                model.addAttribute("ver",new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDob(), firstresult.getPhonenumber()));
+                firstresult.setVaccinationid(firstresult.getVaccinnationID());
+
+                session.setAttribute("verifiedrecord", firstresult);
 
 
 
