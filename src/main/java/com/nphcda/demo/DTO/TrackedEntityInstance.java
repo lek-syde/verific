@@ -572,6 +572,31 @@ public class TrackedEntityInstance {
         }
     }
 
+
+
+    @JsonIgnore
+    public boolean isLocked() {
+
+        for (int i=0; i<attributes.size(); i++) {
+
+
+
+            String de = attributes.get(i).getAttribute();
+            String value = attributes.get(i).getValue();
+
+            if (de.contains("Kmh0uBf0GI5")) {
+                if (value.contains("lk")){
+                 return true;
+                }
+
+            }
+
+
+        }
+        return false;
+    }
+
+
     @JsonIgnore
     public String getVaccinnationID() {
 

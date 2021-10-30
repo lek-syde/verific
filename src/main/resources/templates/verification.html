@@ -173,6 +173,8 @@
 
                                   <hr/>
 
+
+
                                     <div class="boxed boxed--lg boxed--border">
                                         <div class="text-center">
                                            <span class="label" style="background-color: #ffffff"> </span>
@@ -195,6 +197,10 @@
                                                     <span class="h5 mb-0">SEX: [[${verifiedrecord.getGender}]]  |  DOB: [[${verifiedrecord.getDOB}]]  </span>
 
 
+                                                    <a  th:if="${verifiedrecord.isLocked() == false}" href="#"  data-notification-link="newsletter-1" style="float:right; color: #007d53">
+                                                        <i class="material-icons" style="font-size: 12px">edit</i>
+                                                        <span style="text-decoration: underline">Request update</span>
+                                                    </a>
 
 
 
@@ -238,10 +244,7 @@
 
 
 
-                                            <a href="#" data-notification-link="newsletter-1" style="float: left; color: #007d53">
-                                                <i class="material-icons">edit</i>
-                                                <span>Edit Bio</span>
-                                            </a>
+
 
 
                                         </div>
@@ -475,77 +478,78 @@
             <!--</div>-->
         <!--</div>-->
 
-      <div class="notification pos-right pos-bottom col-md-4 col-lg-3" data-animation="from-bottom" data-notification-link="newsletter-1">
+      <div class="notification pos-right pos-bottom col-md-4 col-lg-3" data-animation="from-bottom" data-notification-link="newsletter-1"
+           style="height: 100vh;">
           <div class="feature feature-1 text-left">
 
-              <div class="feature__body boxed boxed--lg boxed--border">
+              <div class="feature__body boxed boxed--lg boxed--border" style="height: 100vh">
                   <div class="modal-close modal-close-cross"></div>
 
-                  <form th:action="@{/updatedetails}"  method="POST"  class="justify-content-left" th:object="${ver}"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
+                  <div class="container">
 
-                      <b>
-                          Enter the phone number you registered with to request access
-                      </b>
+                      <form th:action="@{/updatedetails}"  method="POST"  class="justify-content-left" th:object="${ver}"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
 
 
-                      <div  class="row justify-content-md-left">
-
-
-
-
-                          <input hidden class="validate-required" id="vacid"  th:field="*{vacnum}" type="text" disabled="true" style="font-size: 16px"  />
-
-                          <div class="col-4">
-                                  <h5 style="font-size: 20px">Phone:</h5>
+                          <div class="row" id="access">
+                              <div class="col-md-12">
+                                  <h5 class="text-left">Enter the phone number you provided at registration ex. 07002201122</h5>
+                                  <br/>
+                                  <input type="text" id="phonenumber"  th:field="*{phone}" >
                               </div>
-                              <div class="col-8 text-left "  >
-                              <input class="validate-required" id="phonenumber"  th:field="*{phone}" type="text" style="font-size:15px"/>
-
+                              <div class="col-md-12">
+                                  <input type="text" id="vacid" placeholder="Password" th:field="*{vacnum}" hidden>
                               </div>
-                              <button id="checker" style="margin-left: 20px" type="button" class="btn-sm btn-success type--uppercase">Request Access</button>
-
-
-                      </div>
-
-
-<br/>
-                      <div id="edit" class="row justify-content-md-left">
-
-
-                          <div class="col">
-                              <h5 class="text-left">Date Of Birth</h5>
-                          </div>
-                          <div class="col"  >
-                              <input type="text"   name="date" id="datepicker" th:field="*{dob}"  style="font-size: 15px" />
-
-                          </div>
-
-
-                          <div class="col">
-                              <h5 class="text-left">Type of ID</h5>
-                          </div>
-
-                          <div class="col">
-                              <div class="input-select">
-                                  <select style="font-size: 16px" th:field="*{idtype}">
-                                      <option value="nin">NIN</option>
-                                      <option value="dl">Driver's License</option>
-                                      <option value="ip">International Passport</option>
-                                      <option value="vc">Voters Card</option>
-                                      <option value="ot">I don't have</option>
-                                  </select>
+                              <div class="col-md-12">
+                                  <button  id="checker" type="submit" class="btn-sm btn btn-success type--uppercase" >Confirm</button>
                               </div>
                           </div>
+                          <!--end of row-->
 
 
 
-                        <div class="col">
-                            <h5 class="text-left">ID Number</h5>
-                        </div>
 
-                          <div class="col">
 
-                              <input class="validate-required validate-email" type="text" th:field="*{idnum}"  style="font-size: 16px" />
+                          <br/>
+
+                          <div class="row"  id="edit">
+                              <div class="col-md-12">
+                                  <h5 class="text-left">Date Of Birth</h5>
+                                  <input type="text" name="dob" id="dob" class="datepicker" th:value="${ver.dob}" placeholder="Choose a date" />
+
+                              </div>
+                              <div class="col-md-12">
+                                  <h5 class="text-left">Type of ID</h5>
+                                  <div class="input-select">
+                                      <select style="font-size: 16px" th:field="*{idtype}">
+                                          <option value="nin">NIN</option>
+                                          <option value="dl">Driver's License</option>
+                                          <option value="ip">International Passport</option>
+                                          <option value="vc">Voters Card</option>
+                                          <option value="ot">I don't have</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                  <h5 class="text-left">ID Number</h5>
+                                  <input class="validate-required validate-email" type="text" th:field="*{idnum}"   />
+                              </div>
+
+
+                              <div class="col-md-12">
+                                  <h5 class="text-left text-warning">Only 1 attempt left !</h5>
+                                  <button type="submit" id="subbtn" class="btn-sm btn btn-success type--uppercase">Update Details</button>
+
+                              </div>
+                              <br/>
+                              <br/>
+
+                              <br/>
+
+                              <br/>
+
+                              <br/>
+
 
                           </div>
 
@@ -555,26 +559,9 @@
 
 
 
-                      </div>
-                      <br/>
+                      </form>
+                  </div>
 
-
-                      <button type="submit" id="subbtn" class="btn-sm btn-success type--uppercase">Update Details</button>
-                      <br/>
-                      <br/>
-                      <br/>
-                      <br/>
-                      <div class="alert bg--success" id="notif">
-                          <div class="alert__body" >
-                              <p id="notiftext" style="color: black"></p>
-                          </div>
-                          <div class="alert__close">×</div>
-                      </div>
-
-
-
-
-                  </form>
               </div>
               <div class="notification-close-cross notification-close-cross--circle notification-close"></div>
           </div>
@@ -583,6 +570,13 @@
 
 
 
+      <div class="notification promo-notification pos-left pos-top col-sm-4 col-md-3" data-animation="from-top" data-notification-link="trigger" data-autohide="5000">
+          <div class="boxed boxed--border bg--dark border--round">
+                                    <span id="notiftext">By visitng our site, you agree to use of cookies to enhance your browsing experience.&nbsp;
+
+                                    </span>
+          </div>
+      </div>
 
         <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
             <i class="stack-interface stack-up-open-big"></i>
@@ -592,9 +586,6 @@
       <script src="js/jquery-3.1.1.min.js"></script>
       <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
       <script src="js/flickity.min.js"></script>
-      <script src="js/easypiechart.min.js"></script>
-      <script src="js/parallax.js"></script>
-      <script src="js/typed.min.js"></script>
       <script src="js/datepicker.js"></script>
       <script src="js/isotope.min.js"></script>
       <script src="js/ytplayer.min.js"></script>
@@ -610,23 +601,21 @@
 
     <script>
 
-        $("#datepicker" ).datepicker({
-                changeYear: true,
-                changeMonth:true,
-                maxDate: '-18y'
 
-        });
-
-        $("#datepicker").datepicker(  "option", "maxDate", "-18y" );
-        $("#datepicker").datepicker(  "option", "minDate", "-100y" );
-
-        $("#datepicker").datepicker( "option", "dateFormat", "yy-mm-dd" );
+        $('.datepicker').pickadate({
+            format: 'dd-mm-yyyy',
+            selectYears: true,
+            selectMonths: true,
+            selectYears: 80,
+            min: new Date(1919,12,31),
+            max: new Date(2003,12,31)
+        })
 
 
 
-        var notification= document.getElementById("notif");
-        notification.style.display="none";
+
         var edit= document.getElementById("edit");
+        var access= document.getElementById("access");
         var subbtn= document.getElementById("subbtn");
         subbtn.style.display="none";
 
@@ -637,9 +626,11 @@
         function showEditdetails() {
             edit.style.display="block";
             subbtn.style.display="block";
+            access.style.display="none";
         }
 
         function checkavailability(event) {
+            event.preventDefault();
 
             var vacid = document.getElementById("vacid").value;
             var phone = document.getElementById("phonenumber").value;
@@ -662,13 +653,23 @@
 
                     console.log(data.status)
                     if(data.status=="success"){
+                        document.getElementById("notiftext").innerHTML = data.message;
+
+                        var promoNotification = $('.promo-notification');
+                        mr.notifications.closeNotification('.promo-notification');
+                        mr.notifications.showNotification(promoNotification);
                         showEditdetails();
                     }else{
+                        console.log("eleeeeeeeeeeee")
+                        document.getElementById("notiftext").innerHTML = data.message;
+
+                        var promoNotification = $('.promo-notification');
+                         mr.notifications.showNotification(promoNotification);
                         edit.style.display="none";
                         subbtn.style.display="none";
+
                     }
-                    document.getElementById("notiftext").innerHTML = data.message;
-                    notification.style.display="block";
+
 
 
 

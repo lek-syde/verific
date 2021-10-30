@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -109,6 +110,15 @@ public class PageController {
         trackedEntityInstance.setTrackedentitype(recordDetails.getTrackedEntityInstance());
         trackedEntityInstance.setOrgUnit(recordDetails.getOrgUnit());
 
+        System.out.println("the date:"+ trackedEntityInstance.getDob());
+            SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
+            Date date1=formatter.parse(trackedEntityInstance.getDob());
+            final String NEW_FORMAT = "yyyy-MM-dd";
+            formatter.applyPattern(NEW_FORMAT);
+            trackedEntityInstance.setDob(formatter.format(date1));
+
+
+
         updateToDHIS(trackedEntityInstance);
 
         return "redirect:/verify?verificationID="+recordDetails.getVaccinnationID();
@@ -156,7 +166,14 @@ public class PageController {
 
         Attribute dob2= new Attribute();
         dob2.setAttribute("mAWcalQYYyk");
+
+
         dob2.setValue(user.getDob());
+
+        Attribute clientStatus= new Attribute();
+        clientStatus.setAttribute("Kmh0uBf0GI5");
+        clientStatus.setValue("lk");
+
 
         List<Enrollment> enrollments= new ArrayList<>();
 
@@ -166,6 +183,7 @@ public class PageController {
         attributes.add(typeofid);
         attributes.add(documentid);
         attributes.add(dob2);
+        attributes.add(clientStatus);
 
 
         trackedEntityInstance.setAttributes(attributes);
@@ -209,7 +227,7 @@ public class PageController {
         }
 
         System.out.println("wrong");
-       return ResponseEntity.ok(new StatusMessage("error", "Edit Access Denied"));
+       return ResponseEntity.ok(new StatusMessage("error", "Edit Access Denied, phone number does not match!"));
 
     }
 
@@ -429,6 +447,12 @@ public class PageController {
                     model.addAttribute("pageNumbers", pageNumbers);
                 }
 
+
+                session.setAttribute("verifiedrecord", firstresult);
+
+
+                model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber()));
+
                 model.addAttribute("pagedEntities", pagedEntities);
             }
         }
@@ -504,7 +528,9 @@ public class PageController {
                 model.addAttribute("verifiedrecord", firstresult);
                 System.out.println("hey"+firstresult.getTrackedEntityInstance());
 
-                model.addAttribute("ver",new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDob(), firstresult.getPhonenumber()));
+                System.out.println("vac-id"+ firstresult.getVaccinnationID());
+
+                model.addAttribute("ver",new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber()));
                 firstresult.setVaccinationid(firstresult.getVaccinnationID());
 
                 session.setAttribute("verifiedrecord", firstresult);
@@ -587,7 +613,7 @@ public class PageController {
 
 
 
-        model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDob(), firstresult.getPhonenumber()));
+        model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber()));
 
 
         model.addAttribute("verification", new VerificationEntity());

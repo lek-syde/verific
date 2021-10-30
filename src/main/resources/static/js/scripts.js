@@ -2269,6 +2269,9 @@ mr = (function (mr, $, window, document){
         
         closeEvent.initEvent('notificationClosed.notifications.mr', true, true);
         notification.addClass('notification--dismissed').trigger('notificationClosed.notifications.mr').get(0).dispatchEvent(closeEvent);
+
+        notification.removeClass('notification--dismissed');
+        notification.removeClass('notification--reveal')
         notification.closest('nav').removeClass('notification--reveal');
 
         // If this notification requires to be closed permanently using a cookie, set the cookie now.
