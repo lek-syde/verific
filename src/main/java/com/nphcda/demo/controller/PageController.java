@@ -609,11 +609,10 @@ public class PageController {
 
 
 
+        model.addAttribute("ver",new EditDTO("", "", "", "","", ""));
+
         model.addAttribute("validatationinfo", validateInfo);
 
-
-
-        model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber()));
 
 
         model.addAttribute("verification", new VerificationEntity());

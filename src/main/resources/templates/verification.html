@@ -77,9 +77,16 @@
             @media (min-width: 320px) and (max-width: 480px) {
 
                .heading-block{
-                   display: none;
+                   margin-top: -65px;
                }
 
+
+            }
+
+            @media only screen and (min-width: 1025px) {
+                .heading-block {
+                    margin-top: 65px;
+                }
             }
         </style>
 
@@ -161,7 +168,40 @@
 
 
                             <div class="heading-block">
-                                <br/>
+
+                                <section class="bar bar-3 bar--sm ">
+                                    <div class="container">
+                                        <div class="row">
+
+                                            <div class="col-lg-6 text-right text-left-xs text-left-sm">
+                                                <div class="bar__module">
+                                                    <ul class="menu-horizontal">
+                                                        <!--<li>-->
+                                                            <!--<div class="modal-instance">-->
+                                                                <!--<a href="#" class="modal-trigger" data-modal-index="0">Login</a>-->
+
+                                                            <!--</div>-->
+                                                        <!--</li>-->
+                                                        <li>
+                                                            <div class="modal-instance">
+                                                                <a  th:if="${verifiedrecord != null && verifiedrecord.isLocked() == false}" href="#"  data-notification-link="newsletter-1" style="float:left; color: #007d53">
+                                                                    <i class="material-icons" style="font-size: 12px">edit</i>
+                                                                    <span style="text-decoration: underline">UPDATE MY DOB/ID</span>
+                                                                </a>
+
+                                                            </div>
+                                                        </li>
+
+
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end of row-->
+                                    </div>
+                                    <!--end of container-->
+                                </section>
 
 
                             </div>
@@ -195,10 +235,7 @@
                                                     <span class="h5 mb-0">SEX: [[${verifiedrecord.getGender}]]  |  DOB: [[${verifiedrecord.getDOB}]]  </span>
 
 
-                                                    <a  th:if="${verifiedrecord.isLocked() == false}" href="#"  data-notification-link="newsletter-1" style="float:left; color: #007d53">
-                                                        <i class="material-icons" style="font-size: 12px">edit</i>
-                                                        <span style="text-decoration: underline">Request update</span>
-                                                    </a>
+
 
 
 
