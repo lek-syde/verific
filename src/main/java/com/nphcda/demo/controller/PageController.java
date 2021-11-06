@@ -98,6 +98,12 @@ public class PageController {
     }
 
 
+    @RequestMapping(value = "/guide", method = RequestMethod.GET)
+    public String showGuide(Model model){
+        model.addAttribute("verification", new VerificationEntity());
+        return "guide";
+    }
+
 
     @RequestMapping(value = "/updatedetails", method = RequestMethod.POST)
     public String homePage(Model model, @ModelAttribute("ver") EditDTO trackedEntityInstance, HttpServletRequest request,HttpSession session) throws ParseException, IOException, URISyntaxException {
