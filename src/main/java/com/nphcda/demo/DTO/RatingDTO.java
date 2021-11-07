@@ -1,20 +1,9 @@
-package com.nphcda.demo.entity;
+package com.nphcda.demo.DTO;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class Rating {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    long Id;
-
+public class RatingDTO {
     String comment;
 
-     float stars;
+    String stars;
 
     String state;
 
@@ -30,14 +19,6 @@ public class Rating {
 
 
 
-    public long getId() {
-        return Id;
-    }
-
-    public void setId(long id) {
-        Id = id;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -46,12 +27,28 @@ public class Rating {
         this.comment = comment;
     }
 
-    public float getStars() {
+    public String getStars() {
         return stars;
     }
 
-    public void setStars(float stars) {
+    public void setStars(String stars) {
         this.stars = stars;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFacilityid() {
@@ -70,14 +67,6 @@ public class Rating {
         this.facilityname = facilityname;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -86,15 +75,7 @@ public class Rating {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Rating(String state, String facilityid, String facilityname) {
+    public RatingDTO(String state, String facilityid, String facilityname) {
         this.state = state;
         this.facilityid = facilityid;
         this.facilityname = facilityname;

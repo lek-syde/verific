@@ -271,7 +271,7 @@ public class PageController {
         }
         Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
 
-        model.addAttribute("rating", new Rating(hc.getState(), hc.getOrganizationuit(), hc.getHealthCenter()));
+        model.addAttribute("rating", new RatingDTO(hc.getState(), hc.getOrganizationuit(), hc.getHealthCenter()));
         model.addAttribute("healthcenter", hc);
 
        model.addAttribute("saved", show);
@@ -284,10 +284,23 @@ public class PageController {
 
 
     @RequestMapping(value = "/rate", method = RequestMethod.POST)
-    public String homePage(Model model, @ModelAttribute("rating") Rating rating, HttpServletRequest request) throws ParseException, IOException {
+    public String homePage(Model model, @ModelAttribute("rating") RatingDTO rating, HttpServletRequest request) throws ParseException, IOException {
 
         System.out.println(rating.getComment());
-        ratingRepo.save(rating);
+        System.out.println("start"+rating.getStars());
+
+        Rating myRating= new Rating(rating.getState(), rating.getFacilityid(), rating.getFacilityname());
+        myRating.setComment(rating.getComment());
+        myRating.setEmail(rating.getEmail());
+
+
+        if(rating.getStars()==""){
+            myRating.setStars(0);
+        }else{
+            myRating.setStars(Float.parseFloat(rating.getStars()));
+        }
+
+        ratingRepo.save(myRating);
         model.addAttribute("saved", true);
         return "redirect:/rating?id=" +rating.getFacilityid()+"&show=true";
     }
