@@ -66,6 +66,9 @@
 
         <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=616bfbb638f8310012c866ef&product=sticky-share-buttons" async="async"></script>
         <style>
+            .rating-container{
+                margin-top:-15px;
+            }
             .caption{
                 display: none!important;
             }
@@ -154,7 +157,7 @@
 
                                 <div class="card card-2 ">
 
-                                    <h4 class="text-center">Rate your service at this facility</h4>
+                                    <h4 class="text-center">Rate your experience at this facility</h4>
 
                                   <hr/>
 
@@ -225,14 +228,18 @@
 
                                     <form th:if="${saved==null}"   th:action="@{/rate}"  method="post" th:object="${rating}" class="mt-5">
 
-                                        <input value="1" type="hidden" required="true" class="rating"
-                                               th:field="*{stars}">
+                                        <div class="row mb-3">
+                                            <div class="col-2 col-example">Poor</div>
+                                            <div class="col-8 col-example"><input value="1" type="hidden" required="true" class="rating mt-0"
+                                                                                    th:field="*{stars}"></div>
+                                            <div class="col-2 col-example mt-0 text-left">Great</div>
+                                        </div>
 
 
-                                        <label>Name</label>
-                                        <input type="text" th:field="*{name}" name="email" required="true" style="font-size: 15px" placeholder="" class="validate-required">
 
-                                        <label>Email</label>
+
+
+                                        <label>Email (Optional)</label>
                                         <input type="email" th:field="*{email}" name="email" required="true" style="font-size: 15px" placeholder="" class="validate-required">
 
 
@@ -248,7 +255,7 @@
                                         <br/>
                                         <button  class="btn btn-success" type="submit">Submit review</button>
 
-                                        <span class="type--fade" >Confidentiality is guaranteed </span>
+
                                     </form>
 
 
@@ -265,24 +272,7 @@
 
 
 
-                                    <!--<form class="justify-content-center  row mx-0" th:if="${!pagedEntities.empty}"  th:object="${verification}"-->
-                                          <!--th:action="@{/verify}"  method="GET">-->
-                                        <!--<div class="col-md-12">-->
 
-                                            <!--<input type="text" name="vackey" th:field="*{verificationID}" required="true" placeholder="NG-JGGW76232STD" class="validate-required">-->
-
-                                            <!--<button  class="btn btn-lg btn-success btn-loading" type="submit" data-loading-text="Sending">-->
-
-
-                                                <!--<span>Verify</span>-->
-                                            <!--</button>-->
-
-                                        <!--</div>-->
-
-
-
-
-                                    <!--</form>-->
 
 
 
