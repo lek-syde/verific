@@ -1554,7 +1554,7 @@ div.recaptcha iframe {
 .accordion li.active .accordion__content {
   opacity: 1;
   visibility: visible;
-  max-height: 500px;
+  max-height: 1000px;
 }
 .accordion li.active .accordion__content > * {
   display: inline-block;
