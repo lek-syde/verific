@@ -73,6 +73,21 @@
                 color: #ffffff;
             }
 
+            .isDisabled {
+                color: currentColor;
+                cursor: not-allowed;
+                opacity: 0.5;
+                text-decoration: none;
+                pointer-events: none;
+            }
+
+            .isDisabled > a {
+                color: currentColor;
+                display: inline-block;  /* For IE11/ MS Edge bug */
+                pointer-events: none;
+                text-decoration: none;
+            }
+
 
             @media (min-width: 320px) and (max-width: 480px) {
 
@@ -152,6 +167,7 @@
 
 
 
+
             <section class="imageblock switchable">
 
                 <div class="container" style="background-color: white; max-width: 1000px!important;">
@@ -161,47 +177,39 @@
 
 
 
+
                     <div class="row justify-content-md-center">
 
-                          <div class="col-lg-6 col-md-7">
+
+
+
+
+                          <div class="col-lg-7 col-md-7">
 
 
 
                             <div class="heading-block">
 
+
+
                                 <section class="bar bar-3 bar--sm ">
-                                    <div class="container">
-                                        <div class="row">
 
-                                            <div class="col-lg-6 text-right text-left-xs text-left-sm">
-                                                <div class="bar__module">
-                                                    <ul class="menu-horizontal">
-                                                        <!--<li>-->
-                                                            <!--<div class="modal-instance">-->
-                                                                <!--<a href="#" class="modal-trigger" data-modal-index="0">Login</a>-->
+                                    <div class="row">
+                                        <div class="col-md-12 text-center" th:if="${verifiedrecord != null && verifiedrecord.isLocked() == false}">
 
-                                                            <!--</div>-->
-                                                        <!--</li>-->
-                                                        <li>
-                                                            <div class="modal-instance">
-                                                                <a  th:if="${verifiedrecord != null && verifiedrecord.isLocked() == false}" href="#"  data-notification-link="newsletter-1" style="float:left; color: #007d53">
-                                                                    <i class="material-icons" style="font-size: 12px">edit</i>
-                                                                    <span style="text-decoration: underline">UPDATE MY DOB/ID</span>
-                                                                </a>
-
-                                                            </div>
-                                                        </li>
-
-
-
-
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                            <span>Issues with details on this certficate?
+                                <a href="#" data-notification-link="newsletter-1" style="font-size: 1em"><span class="label label--inline">update</span></a> </span>
                                         </div>
-                                        <!--end of row-->
+
+                                        <div class="col-md-12 text-center" th:if="${verifiedrecord != null && verifiedrecord.checkEligible() == true }" >
+
+                                            <span>Due for second dose!
+                                             <a href="#"  style="font-size: 1em"> <span class="label label--inline bg-danger">list of vaccination sites</span></a> </span>
+                                        </div>
                                     </div>
-                                    <!--end of container-->
+
+
+
                                 </section>
 
 
@@ -212,7 +220,9 @@
 
                                     <h4 class="text-center">VACCINATION e-CERTIFICATE </h4>
 
-                                  <hr/>
+                                    <span class="type--fade" >Issued By: National Primary Health Care Development Agency, Nigeria</span>
+
+                                    <hr/>
 
 
 
@@ -252,7 +262,7 @@
                                             <div th:if="${validatationinfo != null}" class="row justify-content-md-center">
                                                 <div class="col"   >
 
-                                                    <img th:if="${verifiedimg != null}" alt="profile-image"  class="image--lg"  th:src="${verifiedimg}" th:style="'background:url(' + @{verified} + ');'" style="width: 140px;  border: 2px solid #006400; background-image: url('http://res.cloudinary.com/nphcdaict/image/upload/v1633926858/watermark_mvfiyj.png'); border: 2px solid green" >
+                                                    <img th:if="${verifiedimg != null}" alt="profile-image"  class="image--lg"  th:src="${verifiedimg}"  style="width: 140px;  border: 2px solid #006400; background-image: url('http://res.cloudinary.com/nphcdaict/image/upload/v1633926858/watermark_mvfiyj.png'); border: 2px solid green" />
 
 
                                                 </div>
@@ -339,22 +349,9 @@
 
 
 
-                                    <div class="sharethis-inline-share-buttons"></div>
-
-                                    <div class="card__bottom text-center">
-
-                                        <!-- ShareThis BEGIN -->
-                                        <!-- ShareThis END -->
-
-
-                                    </div>
-
-
-                                    <span class="type--fade" >Issued By: National Primary Health Care Development Agency, Nigeria</span>
 
 
 
-                                    <p class="text-center">All Rights Reserved 	&#169; 2021</p>
 
 
 
@@ -406,7 +403,6 @@
                                       <br/>
 
                                       <br/>
-
                                       <form class="justify-content-center  row mx-0"  th:object="${verification}"
                                             th:action="@{/verify}"  method="GET">
                                           <div class="col-md-12">
@@ -484,56 +480,41 @@
 
 
                     </div>
+
+
+
+
                     <!--end of row-->
                 </div>
                 <!--end of container-->
             </section>
         </div>
 
-        <!--<div class="modal-container" data-autoshow="500">-->
-            <!--<div class="modal-content">-->
-                <!--<div class="boxed boxed&#45;&#45;lg">-->
-                    <!--<h2>Notice</h2>-->
-                    <!--<hr class="short">-->
-                    <!--<p class="lead">-->
-                       <!--Visit your health facility to take your second dose. 12 weeks after first dose-->
-                    <!--</p>-->
 
-                    <!--<p class="lead">-->
-                       <!--visit a health facility to get immunized.-->
-                    <!--</p>-->
 
-                    <!--<p class="lead">-->
-                        <!--visit a health facility to link your QR code.-->
-                    <!--</p>-->
 
-                    <!--<p class="lead">-->
-                        <!--Detected QR Code conflicts.-->
-                    <!--</p>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+
 
       <div class="notification pos-right pos-bottom col-md-4 col-lg-3" data-animation="from-bottom" data-notification-link="newsletter-1"
-           style="height: 80vh;">
+           style="height: 95vh;">
           <div class="feature feature-1 text-left">
 
-              <div class="feature__body boxed boxed--lg" style="height: 80vh">
+              <div class="feature__body boxed boxed--lg" style="height: 95vh">
                   <div class="modal-close modal-close-cross"></div>
 
                   <div class="container">
 
-                      <form th:action="@{/updatedetails}"  method="POST"  class="justify-content-left" th:object="${ver}"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
+                      <form th:if="${verifiedrecord != null}" th:action="@{/updatedetails}"  method="POST"  class="justify-content-left" th:object="${ver}"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
 
 
                           <div class="row" id="access">
                               <div class="col-md-12">
-                                  <h5 class="text-left">Enter the phone number you provided at registration ex. 07002201122</h5>
+                                  <h5 class="text-left">Enter the phone number or email you provided at registration ex. 07002201122 or info@nphcda.gov.ng</h5>
                                   <br/>
                                   <input type="text" id="phonenumber"  th:field="*{phone}" >
                               </div>
                               <div class="col-md-12">
-                                  <input type="text" id="vacid" placeholder="Password" th:field="*{vacnum}" hidden>
+                                  <input type="text" id="vacid" placeholder="Password" th:field="*{vacnum}" hidden/>
                               </div>
                               <div class="col-md-12">
                                   <button  id="checker" type="submit" class="btn-sm btn btn-success type--uppercase" >Confirm</button>
@@ -542,15 +523,10 @@
                           <!--end of row-->
 
 
-
-
-
-                          <br/>
-
                           <div class="row"  id="edit">
                               <div class="col-md-12">
                                   <h5 class="text-left">Date Of Birth</h5>
-                                  <input type="text" name="dob" id="dob" class="datepicker" th:value="${ver.dob}" placeholder="Choose a date" />
+                                  <input type="text" name="dob" id="dob" class="datepicker"  th:value="${ver.dob}"  th:field="*{dob}" />
 
                               </div>
                               <div class="col-md-12">
@@ -568,13 +544,43 @@
 
                               <div class="col-md-12">
                                   <h5 class="text-left">ID Number</h5>
-                                  <input class="validate-required validate-email" type="text" th:field="*{idnum}"   />
+                                  <input class="validate-required" type="text"   th:field="*{idnum}"   />
                               </div>
 
 
                               <div class="col-md-12">
+                                  <h5 class="text-left">Surname</h5>
+                                  <input class="validate-required " type="text"  th:field="*{familyname}"   />
+                              </div>
+
+
+                              <div class="col-md-12">
+                                  <h5 class="text-left">Other Name</h5>
+                                  <input type="text" class="validate-required "   th:field="${ver.othername}"   />
+                              </div>
+
+
+
+                              <div class="col-md-12">
+                                  <h5 class="text-left">Sex</h5>
+                                  <div class="input-select">
+                                      <select style="font-size: 16px" th:field="*{sex}">
+                                          <option value="MALE">MALE</option>
+                                          <option value="FEMALE">FEMALE</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+
+
+
+
+
+
+
+                              <div class="col-md-12">
                                   <h5 class="text-left text-warning">Only 1 attempt left !</h5>
-                                  <button type="submit" id="subbtn" class="btn-sm btn btn-success type--uppercase">Update Details</button>
+                                  <button type="submit" id="subbtn" class="btn-sm btn btn-success type--uppercase" style="font-size: 0.857143em">Update Details</button>
 
                               </div>
                               <br/>
@@ -585,6 +591,7 @@
                               <br/>
 
                               <br/>
+                              <p>sd</p>
 
 
                           </div>
@@ -604,6 +611,238 @@
           <!--end feature-->
       </div>
 
+      <div class="notification pos-right pos-bottom col-md-4 col-lg-3" data-animation="from-bottom" data-notification-link="vaccination-sites-1"
+           style="height: 95vh;">
+          <div class="feature feature-1 text-left">
+
+              <div class="feature__body boxed boxed--lg" style="height: 95vh">
+                  <div class="modal-close modal-close-cross"></div>
+
+                  <div class="container">
+
+                      <form  method="POST"  class="justify-content-left"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
+
+
+                          <div class="row" id="access">
+                              <div class="col-md-12">
+                                  <h5 class="text-left"> Select state of vaccination</h5>
+                                  <div class="col-md-12">
+
+
+                                      <div class="input-select">
+                                          <select id="stateofres" style="font-size: 16px" >
+                                              <option value="">Select Option</option>
+                                              <option value="Abia State">Abia State</option>
+                                              <option value="Adamawa State">Adamawa State</option>
+                                              <option value="Akwa-Ibom State">Akwa-Ibom State</option>
+                                              <option value="Anambra state">Anambra state</option>
+                                              <option value="Bauchi State">Bauchi State</option>
+                                              <option value="Bayelsa State">Bayelsa State</option>
+                                              <option value="Benue State">Benue State</option>
+                                              <option value="Borno State">Borno State</option>
+                                              <option value="Cross River State">Cross River State</option>
+                                              <option value="Delta State">Delta State</option>
+                                              <option value="Ebonyi State">Ebonyi State</option>
+                                              <option value="Edo State">Edo State</option>
+                                              <option value="Ekiti State">Ekiti State</option>
+                                              <option value="Enugu State">Enugu State</option>
+                                              <option value="Federal Capital Territory">Federal Capital Territory</option>
+                                              <option value="Gombe State">Gombe State</option>
+                                              <option value="Imo State">Imo State</option>
+                                              <option value="Jigawa State">Jigawa State</option>
+                                              <option value="Kaduna State">Kaduna State</option>
+                                              <option value="Kano State">Kano State</option>
+                                              <option value="Katsina State">Katsina State</option>
+                                              <option value="Kebbi State">Kebbi State</option>
+                                              <option value="Kogi State">Kogi State</option>
+                                              <option value="Kwara State">Kwara State</option>
+                                              <option value="Lagos State">Lagos State</option>
+                                              <option value="Nasarawa State">Nasarawa State</option>
+                                              <option value="Niger State">Niger State</option>
+                                              <option value="Ogun State">Ogun State</option>
+                                              <option value="Ondo State">Ondo State</option>
+                                              <option value="Osun State">Osun State</option>
+                                              <option value="Oyo State">Oyo State</option>
+                                              <option value="Plateau State">Plateau State</option>
+                                              <option value="Rivers State">Rivers State</option>
+                                              <option value="Sokoto State">Sokoto State</option>
+                                              <option value="Taraba State">Taraba State</option>
+                                              <option value="Yobe State">Yobe State</option>
+                                              <option value="Zamfara State">Zamfara State</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                              <div class="col-md-12">
+                                  <h5 class="text-left"> Select preferred Lga</h5>
+                                  <div class="col-md-12">
+
+
+                                      <div class="input-select">
+                                          <select id="lgaselect" style="font-size: 16px" >
+                                              <option value="">Select Option</option>
+
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+
+
+
+
+
+
+                          </div>
+
+                          <br/>
+                          <br/>
+
+                          <ul class="accordion accordion-1">
+                              <li class="active">
+                                  <div class="accordion__title" style="background-color: #28a745">
+                                      <span class="h5">Vaccination Sites</span>
+                                  </div>
+                                  <div class="accordion__content">
+                                      <ul id="bullets">
+
+                                      </ul>
+                                  </div>
+                              </li>
+
+                          </ul>
+                          <!--end of row-->
+
+
+
+
+
+
+
+
+
+
+                      </form>
+                  </div>
+
+              </div>
+              <div class="notification-close-cross notification-close-cross--circle notification-close"></div>
+          </div>
+          <!--end feature-->
+      </div>
+
+      <div class="notification pos-right pos-bottom col-md-4 col-lg-3" data-animation="from-bottom" data-notification-link="contact-person-1"
+           style="height: 95vh;">
+          <div class="feature feature-1 text-left">
+
+              <div class="feature__body boxed boxed--lg" style="height: 95vh">
+                  <div class="modal-close modal-close-cross"></div>
+
+                  <div class="container">
+
+                      <form  method="POST"  class="justify-content-left"   data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your name, email address and agree to the terms.">
+
+
+                          <div class="row" id="access">
+                              <div class="col-md-12">
+                                  <h5 class="text-left"> Select state of vaccination</h5>
+                                  <div class="col-md-12">
+
+
+                                      <div class="input-select">
+                                          <select id="stat" style="font-size: 16px" >
+                                              <option value="">Select Option</option>
+                                              <option value="Abia State">Abia State</option>
+                                              <option value="Adamawa State">Adamawa State</option>
+                                              <option value="Akwa-Ibom State">Akwa-Ibom State</option>
+                                              <option value="Anambra state">Anambra state</option>
+                                              <option value="Bauchi State">Bauchi State</option>
+                                              <option value="Bayelsa State">Bayelsa State</option>
+                                              <option value="Benue State">Benue State</option>
+                                              <option value="Borno State">Borno State</option>
+                                              <option value="Cross River State">Cross River State</option>
+                                              <option value="Delta State">Delta State</option>
+                                              <option value="Ebonyi State">Ebonyi State</option>
+                                              <option value="Edo State">Edo State</option>
+                                              <option value="Ekiti State">Ekiti State</option>
+                                              <option value="Enugu State">Enugu State</option>
+                                              <option value="Federal Capital Territory">Federal Capital Territory</option>
+                                              <option value="Gombe State">Gombe State</option>
+                                              <option value="Imo State">Imo State</option>
+                                              <option value="Jigawa State">Jigawa State</option>
+                                              <option value="Kaduna State">Kaduna State</option>
+                                              <option value="Kano State">Kano State</option>
+                                              <option value="Katsina State">Katsina State</option>
+                                              <option value="Kebbi State">Kebbi State</option>
+                                              <option value="Kogi State">Kogi State</option>
+                                              <option value="Kwara State">Kwara State</option>
+                                              <option value="Lagos State">Lagos State</option>
+                                              <option value="Nasarawa State">Nasarawa State</option>
+                                              <option value="Niger State">Niger State</option>
+                                              <option value="Ogun State">Ogun State</option>
+                                              <option value="Ondo State">Ondo State</option>
+                                              <option value="Osun State">Osun State</option>
+                                              <option value="Oyo State">Oyo State</option>
+                                              <option value="Plateau State">Plateau State</option>
+                                              <option value="Rivers State">Rivers State</option>
+                                              <option value="Sokoto State">Sokoto State</option>
+                                              <option value="Taraba State">Taraba State</option>
+                                              <option value="Yobe State">Yobe State</option>
+                                              <option value="Zamfara State">Zamfara State</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+
+
+
+
+
+
+
+
+                          </div>
+
+                          <br/>
+                          <br/>
+
+                          <ul class="accordion accordion-1">
+                              <li class="active">
+                                  <div class="accordion__title" style="background-color: #28a745">
+                                      <span class="h5">Contact persons</span>
+                                  </div>
+                                  <div class="accordion__content">
+                                      <ul id="bullets">
+
+                                      </ul>
+                                  </div>
+                              </li>
+
+                          </ul>
+                          <!--end of row-->
+
+
+
+
+
+
+
+
+
+
+                      </form>
+                  </div>
+
+              </div>
+              <div class="notification-close-cross notification-close-cross--circle notification-close"></div>
+          </div>
+          <!--end feature-->
+      </div>
+
+
 
 
       <div class="notification promo-notification pos-left pos-top col-sm-4 col-md-3" data-animation="from-top" data-notification-link="trigger" data-autohide="5000">
@@ -613,6 +852,8 @@
                                     </span>
           </div>
       </div>
+
+
 
         <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
             <i class="stack-interface stack-up-open-big"></i>
@@ -649,6 +890,14 @@
 
 
 
+        const stateselect= document.getElementById("stateofres");
+        const lgaselect= document.getElementById("lgaselect");
+
+
+        stateselect.addEventListener("change", populateLGA);
+        lgaselect.addEventListener("change", populateFacility);
+
+
 
         var edit= document.getElementById("edit");
         var access= document.getElementById("access");
@@ -659,6 +908,66 @@
 
         checker.addEventListener("click", checkavailability);
 
+
+        async function populateLGA(event) {
+
+            var stateid = document.getElementById("stateofres").value;
+            console.log(stateid);
+            $.ajax({
+                type: 'GET',
+                url: "https://vaccination.gov.ng/getlga/" + stateid,
+                success: function(data){
+                    var slctSubcat=$('#lgaselect'), option="";
+                    slctSubcat.empty();
+                    console.log(data)
+
+                    for(var i=0; i<data.length; i++){
+                        option = option + "<option value='"+data[i].lga + "'>"+data[i].lga+ "</option>";
+                    }
+                    slctSubcat.append(option);
+
+                    populateFacility();
+                },
+                error:function(){
+                    alert("please select a valid state");
+                }
+
+            });
+
+        }
+
+        async function populateFacility(event) {
+            var lgaid = document.getElementById("lgaselect").value;
+
+
+            $.ajax({
+                type: 'GET',
+                url: "https://vaccination.gov.ng/getfacility?lgaid=" + lgaid,
+                success: function(data){
+
+
+                    var ul = document.getElementById("bullets");
+                    ul.innerHTML = '';
+
+                    for(var i=0; i<data.length; i++){
+
+                        var topping = data[i].healthCenter;
+
+                        var listItem = document.createElement("li");
+                        listItem.textContent = topping;
+
+                        ul.append(listItem);
+
+                    }
+
+
+                },
+                error:function(){
+                    alert("error");
+                }
+
+            });
+        }
         function showEditdetails() {
             edit.style.display="block";
             subbtn.style.display="block";
@@ -694,7 +1003,8 @@
                         var promoNotification = $('.promo-notification');
                         mr.notifications.closeNotification('.promo-notification');
                         mr.notifications.showNotification(promoNotification);
-                        showEditdetails();
+                        window.location.href = "/account";
+
                     }else{
                         console.log("eleeeeeeeeeeee")
                         document.getElementById("notiftext").innerHTML = data.message;

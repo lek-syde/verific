@@ -3,10 +3,10 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-   
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-       <title>COVID-19 verification portal</title>
+    <title>COVID-19 verification portal</title>
     <meta property="og:title" content="NPHCDA COVID-19 Website">
     <meta property="og:site_name" content="Vaccination verification">
     <meta property="og:url" content="https://verification.vaccination.gov.ng/">
@@ -104,7 +104,7 @@
 
                         <ul class="menu-horizontal text-left">
                             <li style="border-bottom: 0.5px solid #28a745">
-                               <span class="text-dark"><a target="_blank" href="https://publicreg.vaccination.gov.ng/" style="text-underline: none; color: #28a745">Registration</a></span>
+                                <span class="text-dark"><a target="_blank" href="https://publicreg.vaccination.gov.ng/" style="text-underline: none; color: #28a745">Registration</a></span>
 
                                 <!--end dropdown container-->
                             </li>
@@ -146,13 +146,13 @@
                         <br/>
 
                         <form  class="justify-content-center  row mx-0"  th:object="${verification}"  data-success="Thanks for signing up.  Please check your inbox for a confirmation email." data-error="Please provide your email"
-                              th:action="@{/verify}"  method="GET"  >
+                               th:action="@{/verify}"  method="GET"  >
                             <div class="col-md-6">
 
                                 <input type="text" name="vackey" th:field="*{verificationID}" placeholder="NG-JGGW76232STD" onkeyup="this.value = this.value.toUpperCase();"  class="validate-required">
 
 
-                                <button  class="btn btn-lg btn-success btn-loading" type="submit" >
+                                <button style="font-size: 1.857143em"  class="btn btn-lg btn-success btn-loading" type="submit" >
 
 
                                     <span>Verify </span>

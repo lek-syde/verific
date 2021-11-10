@@ -222,6 +222,59 @@
                                     <p class="text-center">All Rights Reserved 	&#169; 2021</p>
 
 
+                                    <div class="row">
+
+                                        <div class="col-lg-12 text-left">
+
+
+
+
+
+                                            <div class="card card-2 text-center">
+
+                                                <div class="card__bottom text-center">
+                                                    <div class="card__action btn-success" th:if="${verifiedrecord != null && verifiedrecord.isLocked() == false}" >
+
+
+                                                        <a href="#" data-notification-link="newsletter-1" >.
+                                                            <span class="h6 type--uppercase p-1 text-white" style="margin-top:-20px">Any incorrect bio data; Name, DOB etc? please click here <p>1 Attempt</p></span>
+                                                            <i class="material-icons text-white">edit</i>
+                                                        </a>
+
+                                                    </div>
+
+                                                    <div class="card__action bg-secondary " th:if="${verifiedrecord != null && verifiedrecord.isLocked() == true}" >
+
+
+                                                        <span class="h6 type--uppercase p-1 text-white">You have used up your edit allocation <p>Please click here to contact your state contact</p></span>
+                                                        <i class="material-icons text-white">disabled_by_default</i>
+
+
+                                                    </div>
+                                                    <div class="card__action btn-danger" th:if="${verifiedrecord != null && verifiedrecord.checkEligible() == true }" >
+
+
+                                                        <a  href="#" data-notification-link="vaccination-sites-1">
+                                                            <span class="h6 type--uppercase p-1 text-white">Due for second dose! Please click here for list of vaccination sites</span>
+                                                            <i class="material-icons text-white">info</i>
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="card__action btn-success">
+
+
+                                                        <a  href="#" data-notification-link="contact-person-1">
+                                                            <span class="h6 type--uppercase p-1 text-white">batch number, QR code issues; Record not linked, Server error, incorrect vaccination status </span>
+                                                            <i class="material-icons text-white">phone</i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--end of row-->
+
 
 
                                     <!--<form class="justify-content-center  row mx-0" th:if="${!pagedEntities.empty}"  th:object="${verification}"-->

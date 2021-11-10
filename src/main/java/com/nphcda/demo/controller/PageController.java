@@ -8,10 +8,12 @@ import com.nphcda.demo.DTO.*;
 import com.nphcda.demo.EventDTO.Event;
 import com.nphcda.demo.EventDTO.Events;
 import com.nphcda.demo.Service.EntityService;
+import com.nphcda.demo.entity.Contact;
 import com.nphcda.demo.entity.Healthcenter;
 import com.nphcda.demo.entity.Rating;
 import com.nphcda.demo.entity.VaccineDistribution;
 import com.nphcda.demo.kobo.Validator;
+import com.nphcda.demo.repo.ContactRepo;
 import com.nphcda.demo.repo.HealthCenterRepo;
 import com.nphcda.demo.repo.RatingRepo;
 import com.nphcda.demo.repo.Vaccinedistrepo;
@@ -83,6 +85,9 @@ public class PageController {
     @Value("${dhis-password}")
     private String dhispassword;
 
+    @Autowired
+    ContactRepo contactRepo;
+
 
     WebClient webClient;
 
@@ -97,11 +102,61 @@ public class PageController {
         return "index";
     }
 
-
     @RequestMapping(value = "/guide", method = RequestMethod.GET)
     public String showGuide(Model model){
         model.addAttribute("verification", new VerificationEntity());
         return "guide";
+    }
+
+
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
+    public String showAccount(Model model, HttpSession session) throws ParseException {
+
+        TrackedEntityInstance firstresult = (TrackedEntityInstance) session.getAttribute("firstresult");
+
+
+        String access = (String) session.getAttribute("accessgranted");
+        model.addAttribute("verification", new VerificationEntity());
+
+
+
+
+
+        System.out.println("Access"+ access);
+        List<Vaccination> myVaccinations = new ArrayList<>() ;
+        if(firstresult!=null){
+            String barcode = firstresult.getQRCode();
+            String bar;
+
+
+            if (!barcode.contains("http")) {
+                bar="https://via.placeholder.com/200x200.png?text=QR+Not+Linked";
+            } else {
+                bar="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+barcode;
+
+
+            }
+
+
+          myVaccinations= (List<Vaccination>) session.getAttribute("covid");
+
+           String statecode= firstresult.getVaccinnatedFirstDoseCenter().substring(0,2);
+            System.out.println("dosecenter"+ firstresult.getVaccinnatedFirstDoseCenter());
+            System.out.println("dosecenter"+ firstresult.getVaccinatedSecondDoseCenter());
+
+
+            List<Contact> contacts= contactRepo.findByStatecode(firstresult.getEnrollments().get(0).getOrgUnitName().substring(0,2));
+
+
+            System.out.println("contacts-"+contacts.toString());
+
+            model.addAttribute("covid", myVaccinations);
+            model.addAttribute("contacts", contacts);
+            model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getDHISPhoneNumber(), firstresult.getGender(), firstresult.getFamilyName(), firstresult.getOtherNames(), firstresult.getDHISEMAIL(),bar));
+
+        }
+
+        return "settings";
     }
 
 
@@ -110,11 +165,13 @@ public class PageController {
 
         System.out.println("saving");
 
-        TrackedEntityInstance recordDetails = (TrackedEntityInstance) session.getAttribute("verifiedrecord");
+        TrackedEntityInstance recordDetails = (TrackedEntityInstance) session.getAttribute("firstresult");
 
         System.out.println("wow"+ recordDetails.getTrackedEntityInstance());
         trackedEntityInstance.setTrackedentitype(recordDetails.getTrackedEntityInstance());
         trackedEntityInstance.setOrgUnit(recordDetails.getOrgUnit());
+
+
 
         System.out.println("the date:"+ trackedEntityInstance.getDob());
             SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy");
@@ -123,11 +180,13 @@ public class PageController {
             formatter.applyPattern(NEW_FORMAT);
             trackedEntityInstance.setDob(formatter.format(date1));
 
+        System.out.println("othername " +trackedEntityInstance.getOthername());
+
 
 
         updateToDHIS(trackedEntityInstance);
 
-        return "redirect:/verify?verificationID="+recordDetails.getVaccinnationID();
+        return "redirect:/account";
     }
 
 
@@ -172,9 +231,28 @@ public class PageController {
 
         Attribute dob2= new Attribute();
         dob2.setAttribute("mAWcalQYYyk");
-
-
         dob2.setValue(user.getDob());
+
+
+        Attribute surname =new Attribute();
+        surname.setAttribute("aW66s2QSosT");
+        surname.setValue(user.getFamilyname());
+        System.out.println("family name"+ user.getFamilyname());
+
+
+        Attribute othername =new Attribute();
+        othername.setAttribute("TfdH5KvFmMy");
+        othername.setValue(user.getOthername());
+        System.out.println("other name"+ user.getOthername());
+
+
+        Attribute gender =new Attribute();
+        gender.setAttribute("CklPZdOd6H1");
+        gender.setValue(user.getSex());
+        System.out.println("sex"+ user.getSex());
+
+
+
 
         Attribute clientStatus= new Attribute();
         clientStatus.setAttribute("Kmh0uBf0GI5");
@@ -190,6 +268,12 @@ public class PageController {
         attributes.add(documentid);
         attributes.add(dob2);
         attributes.add(clientStatus);
+        attributes.add(gender);
+        attributes.add(surname);
+        attributes.add(othername);
+
+
+
 
 
         trackedEntityInstance.setAttributes(attributes);
@@ -199,12 +283,13 @@ public class PageController {
 
 
 
+
         RestTemplate restTemplate = restTemplateBuilder.basicAuthentication(dhisusernam,dhispassword).build();
         URI uri = new URI(url2);
 
 
         System.out.println(url2);
-        System.out.println(trackedEntityInstance.toString());
+
       restTemplate.put(uri, trackedEntityInstance);
 
 
@@ -226,13 +311,23 @@ public class PageController {
         TrackedEntityInstance recordDetails = (TrackedEntityInstance) session.getAttribute("verifiedrecord");
         System.out.println("thisphone"+ phone);
         System.out.println(recordDetails.getDHISPhoneNumber());
+            System.out.println(recordDetails.getDHISEMAIL());
 
-        if(phone.equalsIgnoreCase(recordDetails.getDHISPhoneNumber())){
-           return ResponseEntity.ok(new StatusMessage("success", "Edit Access Granted "));
+        if(phone.equalsIgnoreCase(recordDetails.getDHISPhoneNumber()) || phone.equalsIgnoreCase(recordDetails.getDHISEMAIL())){
+
+            session.setAttribute("accessgranted", "true");
+            session.setAttribute("firstresult",recordDetails);
+
+
+
+            return ResponseEntity.ok(new StatusMessage("success", "Edit Access Granted "));
+
+
 
         }
 
         System.out.println("wrong");
+            session.setAttribute("accessgranted", "false");
        return ResponseEntity.ok(new StatusMessage("error", "Edit Access Denied, phone number does not match!"));
 
     }
@@ -271,7 +366,7 @@ public class PageController {
         }
         Healthcenter hc= healthCenterRepo.findByOrganizationuit(id);
 
-        model.addAttribute("rating", new RatingDTO(hc.getState(), hc.getOrganizationuit(), hc.getHealthCenter()));
+        model.addAttribute("rating", new Rating(hc.getState(), hc.getOrganizationuit(), hc.getHealthCenter()));
         model.addAttribute("healthcenter", hc);
 
        model.addAttribute("saved", show);
@@ -451,6 +546,7 @@ public class PageController {
 
 
 
+                session.setAttribute("covid", myVaccinations);
                 model.addAttribute("covid", myVaccinations);
 
 
@@ -470,7 +566,7 @@ public class PageController {
                 session.setAttribute("verifiedrecord", firstresult);
 
 
-                model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber()));
+                model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber(), firstresult.getGender(), firstresult.getFamilyName(), firstresult.getOtherNames(), firstresult.getDHISEMAIL(), barcode));
 
                 model.addAttribute("pagedEntities", pagedEntities);
             }
@@ -544,13 +640,14 @@ public class PageController {
 
 
                 model.addAttribute("covid", myVaccinations);
+                session.setAttribute("covid", myVaccinations);
                 model.addAttribute("verifiedrecord", firstresult);
                 System.out.println("hey"+firstresult.getTrackedEntityInstance());
+                System.out.println("oky"+ firstresult.getFamilyName());
 
-                System.out.println("vac-id"+ firstresult.getVaccinnationID());
+                System.out.println("idtype"+ firstresult.getIdType2());
 
-                model.addAttribute("ver",new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdtypee(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber()));
-                firstresult.setVaccinationid(firstresult.getVaccinnationID());
+               firstresult.setVaccinationid(firstresult.getVaccinnationID());
 
                 session.setAttribute("verifiedrecord", firstresult);
 
@@ -565,6 +662,8 @@ public class PageController {
                     model.addAttribute("barcode", "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + barcode);
 
                 }
+
+                model.addAttribute("ver", new EditDTO(firstresult.getTrackedEntityInstance(), firstresult.getIdType2(), firstresult.getVaccinationid(), firstresult.getDocumentId(),firstresult.getDOB(), firstresult.getPhonenumber(), firstresult.getGender(), firstresult.getFamilyName(), firstresult.getOtherNames(), firstresult.getDHISEMAIL(), barcode));
 
                 tracker.remove(0);
                 Page<TrackedEntityInstance> pagedEntities = entityService.findPaginated(PageRequest.of(1 - 1, 2), tracker);
@@ -628,7 +727,6 @@ public class PageController {
 
 
 
-        model.addAttribute("ver",new EditDTO("", "", "", "","", ""));
 
         model.addAttribute("validatationinfo", validateInfo);
 

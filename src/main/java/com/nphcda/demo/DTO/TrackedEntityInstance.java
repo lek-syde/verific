@@ -639,6 +639,27 @@ public class TrackedEntityInstance {
     }
 
 
+    @JsonIgnore
+    public String getDHISEMAIL() {
+
+        for (int i=0; i<attributes.size(); i++) {
+
+
+
+            String de = attributes.get(i).getAttribute();
+            String value = attributes.get(i).getValue();
+
+            if (de.contains("N18AMajv6sh")) {
+                return value;
+
+            }
+
+
+        }
+        return "-";
+    }
+
+
 
     @JsonIgnore
     public String getFamilyName() {
@@ -740,6 +761,7 @@ public class TrackedEntityInstance {
                 }
 
 
+                System.out.println("dob"+ newDateString);
                 return newDateString;
 
             }
@@ -978,6 +1000,86 @@ public class TrackedEntityInstance {
 
     }
 
+    public boolean checkEligible() throws ParseException {
+
+
+        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
+
+            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
+            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
+
+                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
+                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
+
+
+                if(de.contains("LUIsbsm3okG")){
+
+                    if(value.contains("DOSE1")){
+
+
+                        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
+
+                        if(eventDate!=null){
+                            Date date = inputFormat.parse(eventDate);
+                           int weekbtwn= getWeeksBetween(date, new Date());
+
+
+                            if(getVaccinatedSecondDose().equalsIgnoreCase("false") && getVaccationtype()=="Astrazenca" && weekbtwn>=6){
+                                return  true;
+                            }else if(getVaccinatedSecondDose().equalsIgnoreCase("false") && getVaccationtype()=="Moderna" && weekbtwn>=4){
+                                return  true;
+                            }else if(getVaccinatedSecondDose().equalsIgnoreCase("false") && getVaccationtype()=="Pfizer" && weekbtwn>=3){
+                                return  true;
+                            }
+
+                            return  false;
+                        }
+
+
+                    }
+
+
+
+
+                }
+
+            }
+
+        }
+        return  false;
+
+
+    }
+
+    public static int getWeeksBetween (Date a, Date b) {
+
+        if (b.before(a)) {
+            return -getWeeksBetween(b, a);
+        }
+        a = resetTime(a);
+        b = resetTime(b);
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(a);
+        int weeks = 0;
+        while (cal.getTime().before(b)) {
+            // add another week
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+            weeks++;
+        }
+        return weeks;
+    }
+
+    public static Date resetTime (Date d) {
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(d);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
 
     public int getFirstDosePhase() throws ParseException {
 
@@ -1132,6 +1234,8 @@ public class TrackedEntityInstance {
 
 
     }
+
+
 
     public String getIdType2(){
 
@@ -1404,6 +1508,7 @@ public class TrackedEntityInstance {
         }
         return "false";
     }
+
 
 
     public String getSecondDoseDate() throws ParseException {

@@ -124,7 +124,7 @@ h5,
 h6,
 .h6 {
   font-size: 0.85714286em;
-  line-height: 2.16666667em;
+  line-height: 1.2em;
 }
 .lead {
   font-size: 1.35714286em;
@@ -5743,8 +5743,12 @@ body.dropdowns--hover .nav-sidebar-column .dropdown:hover > .dropdown__container
 }
 .card-2 .card__bottom > div {
   display: inline-block;
-  width: 25%;
+  width: 32%;
   float: left;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-color: #d3d3d3;
+  margin-left:0.4em ;
 }
 .card-2 .card__bottom .h6 {
   margin-bottom: 0.541666666666667em;
@@ -5809,7 +5813,7 @@ body.dropdowns--hover .nav-sidebar-column .dropdown:hover > .dropdown__container
 }
 .card-2 .card__bottom {
   border-radius: 0 0 6px 6px;
-  padding: 0.92857143em 1.85714286em;
+  padding: 0.92857143em 0em;
 }
 .card-2 .card__action i {
   font-size: 1.78571429em;
@@ -7270,14 +7274,14 @@ a[data-lightbox]:hover {
   width: 3.71428571em;
   height: 3.71428571em;
   border-radius: 50%;
-  border: 2px solid #4a90e2;
+  border: 1px solid #007D53;
   background: #fff;
   text-align: center;
 }
 .process-3 li .process__number span {
   font-size: 1.35714286em;
   font-weight: bold;
-  color: #4a90e2;
+  color: #007D53;
   position: relative;
   top: 12px;
 }
@@ -7296,7 +7300,7 @@ a[data-lightbox]:hover {
   position: absolute;
   height: 100%;
   width: 1px;
-  left: 1.85714286em;
+  left: 4.857143em;
   top: 0;
   border-left: 1px dashed #ddd;
 }
@@ -7391,7 +7395,7 @@ span + .typed-text.h1 {
   select,
   textarea,
   input {
-    font-size: 25px;
+    font-size: 20px;
   }
 }
 form:before,
@@ -7488,7 +7492,7 @@ input[type="submit"] {
 }
 button.btn,
 input[type="submit"].btn {
-  font-size: 1.857143em;
+  font-size: 0.857143em;
   font-weight: 700;
   padding-left: 0;
   padding-right: 0;

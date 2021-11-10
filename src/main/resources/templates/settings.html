@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>COVID-19 verification portal</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta property="og:title" content="NPHCDA COVID-19 Website">
+        <meta property="og:site_name" content="Vaccination verification">
+        <meta property="og:url" content="https://verification.vaccination.gov.ng/">
+        <meta property="og:description" content="Nigeria's Official vaccination website">
+        <meta property="og:type" content="article">
+        <meta property="og:image" content="https://verification.vaccination.gov.ng/img/intro_nphcda.png">
+        <meta property="twitter:image" content="https://verification.vaccination.gov.ng/img/intro_nphcda.png"  />
+
+
+
+        <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/stack-interface.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/flickity.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700%7CMerriweather:300,300i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-15JGRP7GF5"></script>
+    </head>
+    <body class=" ">
+        <a id="start"></a>
+        <div class="nav-container " style="background: white">
+            <div class="announcment" style="background-color: #007D53; color: #ffffff; text-align: center" >
+                <a href="tel:+2347002201122" class="hamburger-toggle" style="color: #ffffff; font-size: 15px">
+                    <i class="material-icons" style="color: #ffffff; font-size: 15px">phone</i>
+                    Help Line : 0700 220 1122
+                </a>
+            </div>
+            <div class="bar bar--sm visible-xs" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3 col-md-2">
+                            <a href="/">
+                                <img class="logo logo-dark" alt="logo" src="img/logo_nphcda_main.svg" />
+                                <img class="logo logo-light" alt="logo" src="img/logo_nphcda_main.svg" />
+                            </a>
+                        </div>
+                        <div class="col-9 col-md-10 text-right">
+                            <a href="#" class="hamburger-toggle" data-toggle-class="#menu1;hidden-xs">
+                                <i class="icon icon--sm stack-interface stack-menu "  style="margin-top: 4px; font-size: 4.357143em; color: #0e262e"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </div>
+            <!--end bar-->
+            <nav id="menu1" class="bar bar--sm bar-1 hidden-xs bar--absolute bar--transparent" style="background: white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-1 col-md-2 hidden-xs">
+                            <div class="bar__module">
+                                <a href="/">
+                                    <img class="logo logo-light" alt="logo" src="img/logo_nphcda_main.svg" />
+                                </a>
+                            </div>
+                            <!--end module-->
+                        </div>
+
+                        <div class="col-lg-11 col-md-12 text-right text-left-xs text-left-sm">
+                            <div class="bar__module">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </nav>
+            <!--end bar-->
+        </div>
+
+
+        <!--end of notification-->
+<br/>
+        <br/>
+        <div class="main-container">
+            <section class="bg--secondary space--sm" th:if="${ver != null}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="boxed boxed--lg boxed--border">
+                                <div class="text-block text-center">
+                                    <img alt="qr-code"  th:src="${ver.QR}" class="image--sm" >
+
+
+                                    <span class="h5" th:text="${ver.familyname.toUpperCase()} + ' ' + ${ver.othername.toUpperCase()}"></span>
+                                    <span th:text="${ver.vacnum.toUpperCase()}"></span>
+                                    <!--<span class="label">Pro</span>-->
+                                </div>
+                                <hr>
+                                <div class="text-block">
+                                    <ul class="menu-vertical">
+                                        <li>
+                                            <a href="#" data-toggle-class=".account-tab:not(.hidden);hidden|#account-profile;hidden">Profile</a> | <a href="#" data-toggle-class=".account-tab:not(.hidden);hidden|#account-notifications;hidden">Vaccination History</a> | <a th:href="@{'/verify?verificationID=' + ${ver.vacnum}}">view certf</a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="boxed boxed--lg boxed--border">
+                                <div id="account-profile" class="account-tab">
+                                    <h4>profile</h4>
+
+                                    <form  th:action="@{/updatedetails}"  method="POST" th:object="${ver}" >
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Surname</label>
+                                                <input type="text" name="name" th:field="*{familyname}"  required="true" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Other name(s)</label>
+                                                <input type="text" name="display-name" th:field="*{othername}"  required="true" />
+                                            </div>
+
+
+
+
+                                            <div class="col-md-6">
+                                                <label class="text-left">Date Of Birth</label>
+                                                <input type="text" name="dob" id="dob" class="datepicker"  th:value="${ver.dob}"  th:field="*{dob}" required="true" />
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="text-left">Sex</label>
+                                                <div class="input-select">
+                                                    <select style="font-size: 16px" th:field="*{sex}" required="true">
+                                                        <option value="MALE">MALE</option>
+                                                        <option value="FEMALE">FEMALE</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="text-left">Type of ID</label>
+                                                <div class="input-select">
+                                                    <select style="font-size: 16px" th:field="*{idtype}" required="true">
+                                                        <option value="nin">NIN</option>
+                                                        <option value="dl">Driver's License</option>
+                                                        <option value="ip">International Passport</option>
+                                                        <option value="vc">Voters Card</option>
+                                                        <option value="ot">I don't have</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="text-left">ID Number</label>
+                                                <input class="validate-required" type="text"   th:field="*{idnum}"  required="true" />
+                                            </div>
+
+
+                                            <div class="col-lg-4 col-md-4">
+                                                <button type="submit" class="btn btn-success type--uppercase">Save Profile</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Vaccination number</label>
+                                                <input type="text" name="name" th:value="${ver.email}"  readonly disabled />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Phone number</label>
+                                                <input type="text" name="display-name" th:value="${ver.phone}"   readonly disabled />
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </form>
+
+
+
+                                </div>
+                                <div id="account-notifications" class="hidden account-tab">
+                                    <h4>COVID-19 vaccination history</h4>
+
+                                    <div th:if="${covid.isEmpty()}"  class="alert">
+                                        <div class="alert__body">
+                                            <span>No vaccination record</span>
+                                        </div>
+
+                                    </div>
+
+                                    <ol class="process-3" th:if="${!covid.isEmpty()}">
+                                        <li class="process_item" th:each="covid : ${covid}">
+                                            <div class="process__number">
+                                                <span>[[${covid.pos}]]</span>
+                                            </div>
+                                            <div class="process__body">
+                                                <h4>[[${covid.vaccineType}]]</h4>
+                                                <p>
+                                                    Date given: [[${covid.vaccineDate}]] | Batch No: [[${covid.vaccinebatchNumber}]]
+                                                </p>
+                                            </div>
+                                        </li>
+
+
+                                    </ol>
+                                    <h4>If you have any issues with your vaccination records</h4>
+                                    <hr/>
+                                    <ul th:if="${!contacts.isEmpty()}" th:each="contact : ${contacts}" >
+                                        <li>
+                                            <span>[[${contact.name}]] - [[${contact.phone}]]</span>
+                                        </li>
+
+
+                                    </ul>
+
+
+                                </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+
+        </div>
+        <!--<div class="loader"></div>-->
+        <a class="back-to-top inner-link" href="#start" data-scroll-class="100vh:active">
+            <i class="stack-interface stack-up-open-big"></i>
+        </a>
+
+
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/flickity.min.js"></script>
+        <script src="js/datepicker.js"></script>
+        <script src="js/isotope.min.js"></script>
+        <script src="js/ytplayer.min.js"></script>
+        <script src="js/lightbox.min.js"></script>
+        <script src="js/granim.min.js"></script>
+        <script src="js/jquery.steps.min.js"></script>
+        <script src="js/twitterfetcher.min.js"></script>
+        <script src="js/spectragram.min.js"></script>
+        <script src="js/smooth-scroll.min.js"></script>
+        <script src="js/scripts.js"></script>
+
+        <script>
+            $('.datepicker').pickadate({
+                format: 'dd-mm-yyyy',
+                selectYears: true,
+                selectMonths: true,
+                selectYears: 80,
+                min: new Date(1919,12,31),
+                max: new Date(2003,12,31)
+            })
+
+        </script>
+    </body>
+</html>

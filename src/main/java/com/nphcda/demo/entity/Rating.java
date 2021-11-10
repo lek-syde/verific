@@ -14,7 +14,7 @@ public class Rating {
 
     String comment;
 
-     float stars;
+    private float stars;
 
     String state;
 

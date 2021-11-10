@@ -7,6 +7,22 @@ public class EditDTO {
     String idnum;
     String dob;
     String phone;
+
+    String sex;
+    String familyname;
+    String othername;
+
+    String email;
+    String picture;
+    String QR;
+
+
+
+
+
+
+
+
     private String orgUnit;
 
 
@@ -58,13 +74,22 @@ public class EditDTO {
         this.vacnum = vacnum;
     }
 
-    public EditDTO(String trackedentitype, String idtype, String vacnum, String idnum, String dob, String phone) {
+    public EditDTO(String trackedentitype, String idtype, String vacnum, String idnum, String dob, String phone, String sex, String familyName, String othername, String email, String QR) {
         this.trackedentitype = trackedentitype;
         this.idtype = idtype;
         this.vacnum = vacnum;
         this.idnum = idnum;
         this.dob = dob;
         this.phone=phone;
+        this.sex= sex;
+        this.familyname=familyName;
+        this.othername=othername;
+        this.email=email;
+        this.QR= QR;
+    }
+
+
+    public EditDTO() {
     }
 
     public String getPhone() {
@@ -88,4 +113,51 @@ public class EditDTO {
     }
 
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getFamilyname() {
+        return familyname;
+    }
+
+    public void setFamilyname(String familyname) {
+        this.familyname = familyname;
+    }
+
+    public String getOthername() {
+        return othername;
+    }
+
+    public void setOthername(String othername) {
+        this.othername = othername;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getQR() {
+        return QR;
+    }
+
+    public void setQR(String QR) {
+        this.QR = QR;
+    }
 }
