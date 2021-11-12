@@ -195,7 +195,7 @@
                                 <section class="bar bar-3 bar--sm ">
 
                                     <div class="row">
-                                        <div class="col-md-12 text-center" th:if="${verifiedrecord != null && verifiedrecord.isLocked() == false}">
+                                        <div class="col-md-12 text-center" >
 
                                             <span>Issues with details on this certficate?
                                 <a href="#" data-notification-link="newsletter-1" style="font-size: 1em"><span class="label label--inline">update</span></a> </span>
@@ -510,7 +510,8 @@
 
                           <div class="row" id="access">
                               <div class="col-md-12">
-                                  <h5 class="text-left">Enter the phone number or email you provided at registration ex. 07002201122 or info@nphcda.gov.ng</h5>
+                                  <h5 class="text-left">Enter the phone number or email you provided at registration ex. 07002201122 , info@nphcda.gov.ng
+                                      <br/> or call <a href="tel:07002201122">07002201122</a> for assistance</h5>
                                   <br/>
                                   <input type="text" id="phonenumber"  th:field="*{phone}" >
                               </div>

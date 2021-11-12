@@ -183,10 +183,12 @@ public class PageController {
         System.out.println("othername " +trackedEntityInstance.getOthername());
 
 
+        System.out.println("vac-num"+ trackedEntityInstance.getVacnum());
 
         updateToDHIS(trackedEntityInstance);
 
-        return "redirect:/account";
+
+        return "redirect:/verify?verificationID="+recordDetails.getVaccinnationID();
     }
 
 
