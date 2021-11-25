@@ -197,7 +197,7 @@
 
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>Vaccination number</label>
+                                                <label>Email</label>
                                                 <input type="text" name="name" th:value="${ver.email}"  readonly disabled />
                                             </div>
                                             <div class="col-md-6">
@@ -239,7 +239,7 @@
 
 
                                     </ol>
-                                    <h4>If you have any issues with your vaccination records</h4>
+                                    <h4>If you have any issues with your vaccination records please contact</h4>
                                     <hr/>
                                     <ul th:if="${!contacts.isEmpty()}" th:each="contact : ${contacts}" >
                                         <li>

@@ -2,11 +2,14 @@
 package com.nphcda.demo.DTO;
 
 import com.fasterxml.jackson.annotation.*;
+import com.sun.org.apache.bcel.internal.generic.DADD;
 
 import javax.annotation.Generated;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -909,6 +912,8 @@ public class TrackedEntityInstance {
                         return "Moderna";
                     }else if (value.contains("johnson")){
                         return "Johnson";
+                    }else if (value.contains("biontechpfizer")){
+                        return "BioNTech, Pfizer";
                     }
 
                 }
@@ -956,49 +961,7 @@ public class TrackedEntityInstance {
     }
 
 
-    public String getFirstDose() throws ParseException {
 
-
-        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
-
-            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
-            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
-
-                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
-                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
-
-
-                if(de.contains("LUIsbsm3okG")){
-
-                    if(value.contains("DOSE1")){
-
-
-                        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
-
-                        if(eventDate!=null){
-                            Date date = inputFormat.parse(eventDate);
-
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            String strDate= formatter.format(date);
-                            return strDate;
-                        }
-
-
-                    }
-
-
-
-
-                }
-
-            }
-
-        }
-        return "false";
-
-
-
-    }
 
     public boolean checkEligible() throws ParseException {
 
@@ -1518,27 +1481,22 @@ public class TrackedEntityInstance {
 
 
 
-            String eventDate=enrollments.get(0).getEvents().get(i).getEventDate();
+            String lastUpdated=enrollments.get(0).getEvents().get(i).getEventDate();
             for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
 
                 String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
                 String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
 
 
+                DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
 
-                if(de.contains("LUIsbsm3okG")){
 
+                Date date= inputFormat.parse(lastUpdated);
                     if(value.contains("DOSE2")){
 
 
-                        if(eventDate!=null){
-                            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
-
-                            Date date = inputFormat.parse(eventDate);
-
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                            String strDate= formatter.format(date);
-                            return strDate;
+                        if(checkIfTheresVaccinationDate(date, i)){
+                            return getVaccinationdate(i);
                         }
 
 
@@ -1547,7 +1505,7 @@ public class TrackedEntityInstance {
 
 
 
-                }
+
 
             }
 
@@ -1614,5 +1572,258 @@ public class TrackedEntityInstance {
     }
 
     public TrackedEntityInstance() {
+    }
+
+
+//check vaccinetype for dose one
+    public String getFirstDoseVaccineType() throws ParseException {
+        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
+
+            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
+            String orgUnit= enrollments.get(0).getEvents().get(i).getOrgUnit();
+            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
+
+                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
+                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
+
+
+
+                if(value.contains("DOSE1")){
+
+                    System.out.println("dose 1");
+
+                    //
+                    if(checkIfTheresvaccinetype(i)){
+                        return getVaccineTypephaseone(i);
+                    }
+
+
+
+                }
+
+
+
+
+            }
+
+        }
+        return "-";
+    }
+
+
+    public String getSecondDoseVaccineType() throws ParseException {
+        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
+
+            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
+            String orgUnit= enrollments.get(0).getEvents().get(i).getOrgUnit();
+            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
+
+                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
+                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
+
+
+
+                if(value.contains("DOSE2")){
+
+                    System.out.println("dose 1");
+
+                    //
+                    if(checkIfTheresvaccinetype(i)){
+                        return getVaccineTypephasetwo(i);
+                    }
+
+
+
+                }
+
+
+
+
+            }
+
+        }
+        return "-";
+    }
+
+
+
+    public boolean checkIfTheresvaccinetype(int pos){
+
+        System.out.println("eventpos"+ pos);
+
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+
+            if(de.contains("c7FAZD2q7nJ")){
+
+                System.out.println("jkkj"+ value);
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public String getVaccineTypephaseone(int pos) throws ParseException {
+
+        System.out.println("eventpos"+ pos);
+
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+
+            if(de.contains("c7FAZD2q7nJ")){
+
+                if (value.contains("as")){
+                    if( getFirstDosePhase()==1){
+                        return "Astrazenca COVISHIELD";
+                    }
+                    return "Astrazenca Vaxzevria";
+                }else if(value.contains("moderna")){
+                    return "mRNA-1273/Moderna";
+                }else if (value.contains("johnson")){
+                    return "Janssen Ad26.COV2.S";
+                }else if (value.contains("biontechpfizer")){
+                    return "BioNTech, Pfizer";
+                }
+            }
+
+        }
+        return "-";
+    }
+
+
+    public String getVaccineTypephasetwo(int pos) throws ParseException {
+
+        System.out.println("eventpos"+ pos);
+
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+
+            if(de.contains("c7FAZD2q7nJ")){
+
+                if (value.contains("as")){
+                    if( getSecondDosePhase()==1){
+                        return "Astrazenca COVISHIELD";
+                    }
+                    return "Astrazenca Vaxzevria";
+                }else if(value.contains("moderna")){
+                    return "mRNA-1273/Moderna";
+                }else if (value.contains("johnson")){
+                    return "Janssen Ad26.COV2.S";
+                }else if (value.contains("biontechpfizer")){
+                    return "BioNTech, Pfizer";
+                }
+            }
+
+        }
+        return "-";
+    }
+
+
+    public String getFirstDose() throws ParseException {
+
+
+        for (int i=0; i<enrollments.get(0).getEvents().size(); i++){
+
+            String eventDate= enrollments.get(0).getEvents().get(i).getEventDate();
+            for (int k=0; k< enrollments.get(0).getEvents().get(i).getDataValues().size(); k++){
+
+                String de= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getDataElement();
+                String value= enrollments.get(0).getEvents().get(i).getDataValues().get(k).getValue();
+                DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+
+
+
+
+                    if(value.contains("DOSE1")){
+
+
+                        Date date= inputFormat.parse(eventDate);
+
+                        if(checkIfTheresVaccinationDate(date,i)){
+                            return getVaccinationdate(i);
+                        }
+
+
+
+
+                    }
+
+
+
+
+            }
+
+        }
+        return "false";
+
+
+
+    }
+
+    public boolean checkIfTheresVaccinationDate(Date date, int pos) throws ParseException {
+
+        System.out.println("eventpos"+ pos);
+
+        Date temp;
+
+        String lastUpdated= enrollments.get(0).getEvents().get(pos).getLastUpdated();
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+
+            if(de.contains("LUIsbsm3okG")){
+
+                temp= inputFormat.parse(lastUpdated);
+                if(temp.after(date)){
+
+                    System.out.println("its afterrr");
+                    return true;
+                }
+
+
+            }
+
+        }
+        return false;
+    }
+
+
+    public String getVaccinationdate(int pos) throws ParseException {
+
+        System.out.println("eventpos"+ pos);
+
+        String eventDate= enrollments.get(0).getEvents().get(pos).getEventDate();
+
+        for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
+            String de= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getDataElement();
+            String value= enrollments.get(0).getEvents().get(pos).getDataValues().get(k).getValue();
+
+            if(de.contains("LUIsbsm3okG")){
+
+                DateTimeFormatter f = DateTimeFormatter.ofPattern( "yyyy-MM-dd'T'HH:mm:ss.SSS") ;
+
+
+                System.out.println("dateewfwrfw"+eventDate);
+                if(eventDate!=null){
+                    LocalDate date = LocalDate.parse( eventDate , f ) ;
+
+                    System.out.println("THE DATEEEEEee" + date);
+
+
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String strDate = date.format(formatter);
+
+                    return strDate;
+                }
+            }
+
+        }
+        return "-";
     }
 }

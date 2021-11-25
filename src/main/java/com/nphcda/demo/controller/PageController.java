@@ -435,7 +435,7 @@ public class PageController {
 
         if (id!=null){
 
-
+//THIS IS FOR SEARCH BY  QRCODE
             // Regex to check string is alphanumeric or not.
             String regex = "^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$";
 
@@ -515,26 +515,24 @@ public class PageController {
 
 
                 if(firstresult.getVaccinnatedFirstDose().equalsIgnoreCase("true")&& firstresult.getFirstDosePhase()!=0){
-                    VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
 
 
 
                         batch=firstresult.getfirstdosebatchno();
 
-                    myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
+                    myVaccinations.add(new Vaccination(ordinal(1), firstresult.getFirstDoseVaccineType(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
                 }
 
 
                 if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
-                    VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
 
                        batch2=firstresult.getseconddosebatchno();
 
 
 
-                    myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
+                    myVaccinations.add(new Vaccination(ordinal(2),firstresult.getSecondDoseVaccineType(), firstresult.getSecondDoseDate(), batch2));
 
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(2), "-", "-", "-"));
@@ -575,6 +573,9 @@ public class PageController {
         }
 
         else{
+
+            //THIS IS FOR SEARCH BY VACCINATIONID
+
             List<TrackedEntity> tracked = verification(verificationID);
 
              tracker= tracked.get(0).getTrackedEntityInstances();
@@ -604,29 +605,32 @@ public class PageController {
 
 
                     System.out.println(firststatecode);
-                    System.out.println(firstresult.getVaccationtype());
+                    System.out.println("vaccinetype"+ firstresult.getFirstDoseVaccineType());
+                    System.out.println("vaccinetype2" + firstresult.getSecondDoseVaccineType());
                     System.out.println(firstresult.getFirstDosePhase());
 
 
 
-                    VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
+
+
+               //    VaccineDistribution firstdist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(firststatecode, firstresult.getVaccationtype(), firstresult.getFirstDosePhase());
 
 
                         batch=firstresult.getfirstdosebatchno();
 
-                    myVaccinations.add(new Vaccination(ordinal(1),firstdist.getVaccinename(), firstresult.getFirstDose(), batch));
+                    myVaccinations.add(new Vaccination(ordinal(1), firstresult.getFirstDoseVaccineType(), firstresult.getFirstDose(), batch));
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getFirstDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(1), "-", "-", "-"));
                 }
 
                 if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()!=0){
-                    VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
-                    //for FCT ONLY
+            //        VaccineDistribution seconddist= vaccinedistrepo.findByStateCodeAndVaccinetypeAndPhase(secondstatecode, firstresult.getVaccationtype(), firstresult.getSecondDosePhase());
+
 
                         batch2=firstresult.getseconddosebatchno();
 
 
-                    myVaccinations.add(new Vaccination(ordinal(2),seconddist.getVaccinename(), firstresult.getSecondDoseDate(), batch2));
+                    myVaccinations.add(new Vaccination(ordinal(2),firstresult.getSecondDoseVaccineType(), firstresult.getSecondDoseDate(), batch2));
 
                 }else if(firstresult.getVaccinatedSecondDose().equalsIgnoreCase("true") && firstresult.getSecondDosePhase()==0){
                     myVaccinations.add(new Vaccination(ordinal(2), "-", "-", "-"));
