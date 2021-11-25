@@ -1491,11 +1491,11 @@ public class TrackedEntityInstance {
                 DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
 
 
-                Date date= inputFormat.parse(lastUpdated);
+
                     if(value.contains("DOSE2")){
 
 
-                        if(checkIfTheresVaccinationDate(date, i)){
+                        if(checkIfTheresVaccinationDate(i)){
                             return getVaccinationdate(i);
                         }
 
@@ -1743,7 +1743,7 @@ public class TrackedEntityInstance {
 
                         Date date= inputFormat.parse(eventDate);
 
-                        if(checkIfTheresVaccinationDate(date,i)){
+                        if(checkIfTheresVaccinationDate(i)){
                             return getVaccinationdate(i);
                         }
 
@@ -1764,11 +1764,11 @@ public class TrackedEntityInstance {
 
     }
 
-    public boolean checkIfTheresVaccinationDate(Date date, int pos) throws ParseException {
+    public boolean checkIfTheresVaccinationDate(int pos) throws ParseException {
 
         System.out.println("eventpos"+ pos);
 
-        Date temp;
+
 
         String lastUpdated= enrollments.get(0).getEvents().get(pos).getLastUpdated();
         for(int k=0; k< enrollments.get(0).getEvents().get(pos).getDataValues().size(); k++){
@@ -1778,12 +1778,10 @@ public class TrackedEntityInstance {
 
             if(de.contains("LUIsbsm3okG")){
 
-                temp= inputFormat.parse(lastUpdated);
-                if(temp.after(date)){
 
-                    System.out.println("its afterrr");
+
                     return true;
-                }
+
 
 
             }
